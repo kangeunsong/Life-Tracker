@@ -31,6 +31,15 @@ function deleteToDo(event) {
 function addToDo(newToDoObj) {
   const li = document.createElement("li");
   li.id = newToDoObj.id;
+  
+  // 체크박스 생성
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  // 체크박스의 체크 상태를 저장하기 위해 id 설정
+  checkbox.id = "checkbox-" + newToDoObj.id; 
+  // 체크박스 상태 변경 시 이벤트 리스너 추가
+  checkbox.addEventListener("change", handleCheckBoxChange);
+  
   const span = document.createElement("span");
   const btn = document.createElement("button");
   span.innerText = newToDoObj.text;
@@ -39,9 +48,22 @@ function addToDo(newToDoObj) {
 
   saveToDo();
 
+  li.appendChild(checkbox); // 체크박스를 li 요소에 추가
   li.appendChild(span);
   li.appendChild(btn);
   toDoList.appendChild(li);
+}
+
+function handleCheckBoxChange(event) {
+  const checkboxId = event.target.id;
+  const todoId = parseInt(checkboxId.split("-")[1]);
+  const todoItem = document.getElementById(todoId);
+  
+  if (event.target.checked) {
+    todoItem.classList.add("completed"); // 체크된 경우 완료된 스타일을 추가할 수 있습니다.
+  } else {
+    todoItem.classList.remove("completed"); // 체크가 해제된 경우 완료된 스타일을 제거할 수 있습니다.
+  }
 }
 
 function handleToDoSubmit(event) {
