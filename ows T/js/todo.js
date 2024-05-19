@@ -60,9 +60,9 @@ function handleCheckBoxChange(event) {
   const todoItem = document.getElementById(todoId);
   
   if (event.target.checked) {
-    todoItem.classList.add("completed"); // 체크된 경우 완료된 스타일을 추가할 수 있습니다.
+    todoItem.classList.add("completed"); // 체크된 경우 완료된 스타일을 추가
   } else {
-    todoItem.classList.remove("completed"); // 체크가 해제된 경우 완료된 스타일을 제거할 수 있습니다.
+    todoItem.classList.remove("completed"); // 체크가 해제된 경우 완료된 스타일을 제거
   }
 }
 
