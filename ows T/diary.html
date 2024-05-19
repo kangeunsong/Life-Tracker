@@ -4,6 +4,22 @@
 <head>
     <link rel="stylesheet" href="style.css" />
     <style>
+        #diary-textarea {
+            width: 80%;
+            height: 200px;
+            margin-bottom: 20px;
+        }
+
+        #submit-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #success-msg {
+            color: green;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -24,10 +40,39 @@
     </div>
 
     <div id="diary">
-        <P>오늘의 일기</P>
+        <p>오늘의 일기</p>
+        <!-- 텍스트 입력란과 제출 버튼 -->
+        <textarea id="diary-textarea"></textarea><br>
+        <button id="submit-btn">제출</button>
+        <!-- 제출 성공 메시지 -->
+        <p id="success-msg"></p>
     </div>
 
-    <p>here is the changed one!</p>
+    <script>
+        // 제출 버튼 클릭 시 이벤트 처리
+        document.getElementById('submit-btn').addEventListener('click', function () {
+            // 텍스트 입력란에서 일기 내용 가져오기
+            const diaryContent = document.getElementById('diary-textarea').value;
+
+            // 일기 내용이 비어있는지 확인
+            if (diaryContent.trim() === '') {
+                alert('일기 내용을 입력하세요!');
+            }
+            else {
+                const currentDate = new Date();
+                const year = currentDate.getFullYear();
+                const month = currentDate.getMonth() + 1;
+                const day = currentDate.getDate();
+                const dayOfWeek = ['일', '월', '화', '수', '목', '금', '토'][currentDate.getDay()];
+
+                alert(year + '년 ' + month + '월 ' + day + '일 ' + dayOfWeek + '요일 일기 제출 성공!');
+
+            }
+
+            // 일기 입력란 초기화
+            document.getElementById('diary-textarea').value = '';
+        });
+    </script>
 </body>
 
 </html>
