@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        @import url('https://rsms.me/inter/inter.css');
+
+        html {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            /* 기본 폰트 크기 설정 */
+        }
+
+        @supports (font-variation-settings: normal) {
+            html {
+                font-family: 'Inter var', sans-serif;
+                font-size: 18px;
+                /* 기본 폰트 크기 설정 */
+            }
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .left,
+        .right {
+            flex: 2;
+            /* 두 영역이 동일한 크기 */
+            display: flex;
+            justify-content: center;
+            /* 가로 중앙 정렬 */
+            align-items: center;
+            /* 세로 중앙 정렬 */
+        }
+
+        .divider {
+            width: 2px;
+            /* 세로선의 너비 */
+            background-color: grey;
+            /* 세로선의 색상 */
+            height: 65%;
+            /* 세로선의 높이 */
+            position: absolute;
+            top: 50%;
+            /* 세로선을 중앙에 위치 */
+            transform: translateY(-50%);
+            /* 세로선을 정확히 중앙에 오도록 조정 */
+            left: 50%;
+            /* 수평 중앙에 위치 */
+            z-index: 1;
+            /* 세로선이 다른 요소들 위에 오도록 설정 */
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="left">
+        <div>
+            <!-- <p class="wiseSaying">멈추지 말고 한 가지 목표에 매진하라. 그것이 성공의 비결이다.<br>-안나 파블로바-</p> -->
+            <p>나머지 인생을 설탕물이나 팔면서 보내고 싶습니까,<br> 아니면 세상을 바꿔놓을 기회를 갖고 싶습니까?<br>
+            <p style="text-align: center;">-스티브 잡스-</p>
+            </p>
+        </div>
+    </div>
+    <div class="divider"></div>
+    <div class="right">
+        <div>
+            <h1>Life Tracker</h1>
+            <p style="color:grey">생산적인 삶을 살기 위한 한걸음</p>
+            <br><br>
+            <form class="form-container">
+                <label for="account">ID</label>
+                <input type="text" id="account">
+                <label for="pw">PW</label>
+                <input type="password" id="pw">
+                <div class="button-container">
+                    <input type="button" value="Login">
+                    <input type="button" value="Sign up" style="margin-left: 10px;">
+                    <input type="button" value="Start" id="start-button" style="margin-left: 10px;">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 버튼 요소를 가져옴
+        const startButton = document.getElementById('start-button');
+
+        // 버튼 클릭 이벤트 핸들러 함수
+        function redirectToScheduler() {
+            // scheduler.html로 리다이렉트
+            window.location.href = "scheduler.html";
+        }
+
+        // 버튼에 클릭 이벤트 리스너 추가
+        startButton.addEventListener('click', redirectToScheduler);
+    </script>
+</body>
+
+</html>

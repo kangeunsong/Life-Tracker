@@ -1,0 +1,71 @@
+/*
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+} */
+
+@import url('https://rsms.me/inter/inter.css');
+
+* {
+    font-family: 'Inter', sans-serif;
+}
+
+@supports (font-variation-settings: normal) {
+    html {
+        font-family: 'Inter var', sans-serif;
+    }
+}
+
+body {
+    text-align: center;
+    /* 제목 중앙 정렬 */
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+li {
+    text-align: center;
+    font-size: 19px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: 0 60px;
+    /* 좌우 간격만 설정 */
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+li a {
+    display: inline-block;
+    color: gray;
+    padding-right: 16px;
+    padding-left: 16px;
+    padding-bottom: 20px;
+    text-decoration: none;
+    width: 80px;
+    /* 고정된 너비 설정 */
+    text-align: center;
+    /* 텍스트 중앙 정렬 */
+}
+
+li a:hover {
+    border-bottom: 2px solid #555;
+    color: #000;
+    /* 선택된 리스트의 텍스트 색 */
+    font-weight: bold;
+}
+
+h1 {
+    font-size: 45px;
+    padding: 50px 0;
+    /* 상하 패딩 설정 */
+}

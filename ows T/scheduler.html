@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        #mainTable {
+            border-collapse: collapse;
+            margin-top: 70px;
+            margin-left: 35%;
+        }
+
+        #colorTable {
+            border-collapse: collapse;
+            margin-left: 40.1%;
+        }
+
+        /* 선택된 셀은 그림자를 더 강하게 */
+        .selected {
+            box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        #colorTable td div {
+            width: 40px;
+            height: 40px;
+            border-radius: 100%;
+            border: 6px solid white;
+            margin: 15px;
+            box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: inherit;
+            transition: box-shadow 0.3s ease;
+        }
+
+        #colorTable td {
+            border: none;
+        }
+
+        #blank {
+            width: 40px;
+            height: 30px;
+            background-color: white;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            text-align: center;
+            cursor: pointer;
+            vertical-align: middle;
+            padding: 0;
+        }
+
+        #time {
+            font-size: 15px;
+            width: 40px;
+            height: 30px;
+            background-color: white !important;
+            text-align: center;
+            cursor: pointer;
+            vertical-align: middle;
+            padding: 0;
+        }
+
+
+        form>div input[type="text"] {
+            font-size: 16px;
+            padding: 8px 10px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+        }
+
+        form>div input[type="text"]:focus {
+            border-color: #80BB42;
+            box-shadow: 0px 0px 3px #80BB42;
+        }
+
+        form>div input[type="text"]:disabled {
+            background-color: #f9f9f9;
+            border-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        form#todo-form>div {
+            margin: 14px 0;
+        }
+
+        ul#todo-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        ul#todo-list>li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
+            color: #333;
+            transition: 0.3s;
+        }
+
+        ul#todo-list>li>span {
+            flex-grow: 1;
+        }
+
+        ul#todo-list>li>button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            background-color: #ff5050;
+            border: none;
+            border-radius: 3px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        ul#todo-list>li>button:hover {
+            background-color: #ff3333;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Life Tracker</h1>
+    <ul>
+        <li><a href="scheduler.html">Scheduler</a></li>
+        <li><a href="timer.html">Timer</a></li>
+        <li><a href="song.html">Song</a></li>
+        <li><a href="diary.html">Diary</a></li>
+        <li><a href="#mypage">My page</a></li>
+    </ul>
+
+    <br><br><br>
+
+    <table border="0" id="colorTable">
+        <tr>
+            <td id="rgb(240, 240, 240)">
+                <div style="background-color: rgb(240, 240, 240);"></div>
+            </td>
+            <td id="rgb(210, 210, 210)">
+                <div style="background-color: rgb(210, 210, 210);"></div>
+            </td>
+            <td id="rgb(180, 180, 180)">
+                <div style="background-color: rgb(180, 180, 180);"></div>
+            </td>
+            <td id="rgb(150, 150, 150)">
+                <div style="background-color: rgb(150, 150, 150);"></div>
+            </td>
+            <td id="rgb(120, 120, 120)">
+                <div style="background-color: rgb(120, 120, 120);"></div>
+            </td>
+            <td id="rgb(90, 90, 90)">
+                <div style="background-color: rgb(90, 90, 90);"></div>
+            </td>
+        </tr>
+    </table>
+
+    <br>
+
+    <table border="0" id="mainTable">
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">04</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">05</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">06</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">07</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">08</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">09</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">10</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">11</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">12</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">13</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">14</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">15</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">16</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">17</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">18</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.7);">19</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">20</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">21</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">22</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">23</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">24</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">01</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">02</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+        <tr>
+            <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">03</span></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+            <td id="blank"></td>
+        </tr>
+    </table>
+
+    <script>
+        let isMouseDown = false;
+        let selectedColor = ''; // 초기 선택된 색상 ID는 빈 문자열
+        let previousSelectedCell = null;
+
+        // 첫 번째 테이블의 셀을 클릭할 때 색상을 선택하는 함수
+        document.querySelectorAll('#colorTable td div').forEach(function (cell) {
+            cell.addEventListener('click', function () {
+                // 이전에 선택된 셀이 있다면 그림자를 원래대로 되돌림
+                if (previousSelectedCell) {
+                    previousSelectedCell.classList.remove('selected');
+                }
+
+                // 현재 선택된 셀에 그림자 추가하고, ID 저장
+                this.classList.add('selected');
+                selectedColor = this.parentElement.id; // 부모 td의 id를 가져옴
+                previousSelectedCell = this;
+            });
+        });
+
+        // 두 번째 테이블의 셀의 배경색을 토글하는 함수
+        function toggleCellBackground(cell) {
+            if (cell.style.backgroundColor === selectedColor) {
+                cell.style.backgroundColor = 'white';
+            } else {
+                cell.style.backgroundColor = selectedColor;
+            }
+        }
+
+        // 두 번째 테이블의 셀에 클릭 및 드래그 이벤트 리스너 추가
+        document.querySelectorAll('#mainTable td').forEach(function (cell) {
+            cell.addEventListener('mousedown', function () {
+                isMouseDown = true;
+                toggleCellBackground(this);
+            });
+
+            cell.addEventListener('mouseenter', function () {
+                if (isMouseDown) {
+                    toggleCellBackground(this);
+                }
+            });
+
+            cell.addEventListener('mouseup', function () {
+                isMouseDown = false;
+            });
+        });
+
+        // 마우스 버튼이 떼어질 때 드래그 상태 해제
+        document.body.addEventListener('mouseup', function () {
+            isMouseDown = false;
+        });
+    </script>
+
+    <form id="todo-form">
+        <input type="text" placeholder="What to do?" id="todo-input" />
+        <button type="submit">Add</button>
+    </form>
+    <ul id="todo-list"></ul>
+
+    <script src="js/todo.js"></script>
+</body>
+
+</html>
