@@ -8,16 +8,18 @@
             width: 40%;
             height: 500px;
             margin-bottom: 20px;
+            border-radius: 20px;
         }
 
         #submit-btn {
+            color: white;
+            background-color: black;
             padding: 10px 20px;
             font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
-        }
-
-        #diary textarea {
             border-radius: 10px;
+            border: 0px;
         }
     </style>
 </head>
@@ -42,7 +44,7 @@
         <p>오늘의 일기</p>
         <!-- 텍스트 입력란과 제출 버튼 -->
         <textarea id="diary-textarea"></textarea><br>
-        <button id="submit-btn">제출</button>
+        <button id="submit-btn">Save</button>
         <!-- 제출 성공 메시지 -->
         <p id="success-msg"></p>
     </div>
@@ -55,17 +57,26 @@
 
             // 일기 내용이 비어있는지 확인
             if (diaryContent.trim() === '') {
-                alert('일기 내용을 입력하세요!');
+                alert('Please enter your diary!');
             }
             else {
+                /* 한국어로
                 const currentDate = new Date();
                 const year = currentDate.getFullYear();
                 const month = currentDate.getMonth() + 1;
                 const day = currentDate.getDate();
                 const dayOfWeek = ['일', '월', '화', '수', '목', '금', '토'][currentDate.getDay()];
-
-                alert(year + '년 ' + month + '월 ' + day + '일 ' + dayOfWeek + '요일 일기 제출 성공!');
-
+                alert(year + '년 ' + month + '월 ' + day + '일 ' + dayOfWeek + '요일 일기 제출 성공!'); */
+                
+                // 영어로
+                const currentDate = new Date();
+                const year = currentDate.getFullYear();
+                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                const month = monthNames[currentDate.getMonth()];
+                const day = currentDate.getDate();
+                const dayOfWeekNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                const dayOfWeek = dayOfWeekNames[currentDate.getDay()];
+                alert(dayOfWeek + ' ' + day + ' ' + month + ' ' + year + '\nDiary Submission Success!');
             }
 
             // 일기 입력란 초기화
