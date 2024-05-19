@@ -40,19 +40,16 @@ function addToDo(newToDoObj) {
   // 체크박스 상태 변경 시 이벤트 리스너 추가
   checkbox.addEventListener("change", handleCheckBoxChange);
   
-  // 레이블 생성
-  const label = document.createElement("label");
-  label.setAttribute("for", checkbox.id);
-  label.innerText = newToDoObj.text;
-  
+  const span = document.createElement("span");
   const btn = document.createElement("button");
+  span.innerText = newToDoObj.text;
   btn.innerText = "Delete";
   btn.addEventListener("click", deleteToDo);
 
   saveToDo();
 
   li.appendChild(checkbox); // 체크박스를 li 요소에 추가
-  li.appendChild(label); // 레이블을 li 요소에 추가
+  li.appendChild(span);
   li.appendChild(btn);
   toDoList.appendChild(li);
 }
@@ -62,12 +59,14 @@ function handleCheckBoxChange(event) {
   const todoId = parseInt(checkboxId.split("-")[1]);
   const todoItem = document.getElementById(todoId);
   
+  // 체크박스의 체크 상태에 따라 스타일을 변경하거나 할 일을 수행할 수 있습니다.
   if (event.target.checked) {
-    todoItem.classList.add("completed"); // 체크된 경우 완료된 스타일을 추가
+    todoItem.classList.add("completed"); // 체크된 경우 완료된 스타일을 추가할 수 있습니다.
   } else {
-    todoItem.classList.remove("completed"); // 체크가 해제된 경우 완료된 스타일을 제거
+    todoItem.classList.remove("completed"); // 체크가 해제된 경우 완료된 스타일을 제거할 수 있습니다.
   }
 }
+
 
 function handleToDoSubmit(event) {
   event.preventDefault();

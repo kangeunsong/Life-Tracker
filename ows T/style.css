@@ -23,6 +23,11 @@ body {
     /* 제목 중앙 정렬 */
 }
 
+#selected-list{
+    color: black;
+    font-weight: bold;
+}
+
 ul {
     list-style-type: none;
     margin: 0;
@@ -57,7 +62,7 @@ li a {
     /* 텍스트 중앙 정렬 */
 }
 
-li a:hover {
+li a:hover, #selected-list {
     border-bottom: 2px solid #555;
     color: #000;
     /* 선택된 리스트의 텍스트 색 */
