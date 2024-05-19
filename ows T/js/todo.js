@@ -40,16 +40,19 @@ function addToDo(newToDoObj) {
   // 체크박스 상태 변경 시 이벤트 리스너 추가
   checkbox.addEventListener("change", handleCheckBoxChange);
   
-  const span = document.createElement("span");
+  // 레이블 생성
+  const label = document.createElement("label");
+  label.setAttribute("for", checkbox.id);
+  label.innerText = newToDoObj.text;
+  
   const btn = document.createElement("button");
-  span.innerText = newToDoObj.text;
   btn.innerText = "Delete";
   btn.addEventListener("click", deleteToDo);
 
   saveToDo();
 
   li.appendChild(checkbox); // 체크박스를 li 요소에 추가
-  li.appendChild(span);
+  li.appendChild(label); // 레이블을 li 요소에 추가
   li.appendChild(btn);
   toDoList.appendChild(li);
 }
