@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: white;
+        }
+
+
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        .charts {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 50px;
+        }
+
+        .chart-container {
+            width: 45%;
+        }
+
+        #logout {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Life Tracker</h1>
+    <ul>
+        <li><a href="scheduler.html">Scheduler</a></li>
+        <li><a href="timer.html">Timer</a></li>
+        <li><a href="song.html" >Song</a></li>
+        <li><a href="diary.html">Diary</a></li>
+        <li><a href="myPage.html"id="selected-list">My page</a></li>
+    </ul>
+
+    <div class="container">
+        <h1>김춘식님 잘하고 있어요!</h1>
+        <h2>오늘 완료한 목표 수 <span id="completed-tasks">0</span>/<span id="total-tasks">0</span></h2>
+
+        <div class="charts">
+            <div class="chart-container">
+                <canvas id="weeklyChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <canvas id="monthlyChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <button id="logout">Log out</button>
+
+    <script>
+        const tasks = [
+            { date: '2024-05-20', completed: true },
+            { date: '2024-05-21', completed: false },
+            { date: '2024-05-22', completed: true },
+            { date: '2024-05-22', completed: true },
+            { date: '2024-05-22', completed: false }
+        ];
+
+        const totalTasks = tasks.length;
+        const completedTasks = tasks.filter(task => task.completed).length;
+
+        document.getElementById('total-tasks').textContent = totalTasks;
+        document.getElementById('completed-tasks').textContent = completedTasks;
+
+        const weeklyChartCtx = document.getElementById('weeklyChart').getContext('2d');
+        const monthlyChartCtx = document.getElementById('monthlyChart').getContext('2d');
+
+        const weeklyData = [1, 2, 3, 4, 5, 6, 7];
+        const monthlyData = [3, 2, 5, 7, 8, 6, 5, 4, 6, 7, 8, 9];
+
+        new Chart(weeklyChartCtx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Tasks Completed',
+                    data: weeklyData,
+                    borderColor: 'black',
+                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        beginAtZero: true,
+                        max: 10
+                    }
+                }
+            }
+        });
+
+        new Chart(monthlyChartCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Tasks Completed',
+                    data: monthlyData,
+                    backgroundColor: 'black',
+                    borderColor: 'black',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        beginAtZero: true
+                    },
+                    y: {
+                        beginAtZero: true,
+                        max: 10
+                    }
+                }
+            }
+        });
+
+        document.getElementById('logout').addEventListener('click', () => {
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+
+</html>
