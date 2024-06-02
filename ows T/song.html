@@ -1,7 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Life Tracker - Song</title>
     <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        text-align: center;
+        font-family: "Inter", sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+      }
+
+      h1,
+      h2 {
+        margin-top: 20px;
+      }
+
+      #songInfo {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: inline-block;
+      }
+
+      #songInfo img {
+        width: 300px;
+        height: 300px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      #songInfo p {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin: 10px 0;
+      }
+
+      .iframe-container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .video-frame {
+        width: 560px;
+        height: 315px;
+        border: none;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      footer {
+        margin-top: 50px;
+        padding: 20px;
+        background-color: #333;
+        color: white;
+      }
+    </style>
   </head>
   <body>
     <h1>Life Tracker</h1>
@@ -22,48 +83,69 @@
     </div>
 
     <h2>공부할 때 틀어놓기 좋은 플레이리스트</h2>
+    <div class="iframe-container">
+      <div id="player1" class="video-frame"></div>
+      <div id="player2" class="video-frame"></div>
+      <div id="player3" class="video-frame"></div>
+      <div id="player4" class="video-frame"></div>
+    </div>
 
-    <iframe
-      width="560"
-      height="315"
-      src="https://www.youtube.com/embed/videoseries?list=YOUR_PLAYLIST_ID"
-      frameborder="0"
-      allowfullscreen
-    ></iframe>
+    <footer>
+      <p>&copy; 2024 Life Tracker. All rights reserved.</p>
+    </footer>
 
-    <iframe
-      width="560"
-      height="315"
-      src="https://www.youtube.com/embed/Kdhjd4Y1-mI?si=2SERZujNa3HgPEnw"
-      title="YouTube video player"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen
-    ></iframe>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+      function onYouTubeIframeAPIReady() {
+        new YT.Player("player1", {
+          height: "315",
+          width: "560",
+          videoId: "5PLpaCGqvP8",
+          events: {
+            onReady: onPlayerReady,
+            onError: onPlayerError,
+          },
+        });
 
-    <iframe
-      width="560"
-      height="315"
-      src="https://www.youtube.com/embed/Kdhjd4Y1-mI?si=2SERZujNa3HgPEnw"
-      title="YouTube video player"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen
-    ></iframe>
+        new YT.Player("player2", {
+          height: "315",
+          width: "560",
+          videoId: "U34kLXjdw90",
+          events: {
+            onReady: onPlayerReady,
+            onError: onPlayerError,
+          },
+        });
 
-    <iframe
-      width="560"
-      height="315"
-      src="https://www.youtube.com/embed/Kdhjd4Y1-mI?si=2SERZujNa3HgPEnw"
-      title="YouTube video player"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen
-    ></iframe>
+        new YT.Player("player3", {
+          height: "315",
+          width: "560",
+          videoId: "OqvX953wckE",
+          events: {
+            onReady: onPlayerReady,
+            onError: onPlayerError,
+          },
+        });
 
+        new YT.Player("player4", {
+          height: "315",
+          width: "560",
+          videoId: "Afi364f9FAc",
+          events: {
+            onReady: onPlayerReady,
+            onError: onPlayerError,
+          },
+        });
+      }
+
+      function onPlayerReady(event) {
+        console.log("Player ready:", event.target.a.id);
+      }
+
+      function onPlayerError(event) {
+        console.error("Player error:", event.data);
+      }
+    </script>
     <script src="js/song.js"></script>
   </body>
 </html>
