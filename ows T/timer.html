@@ -6,7 +6,6 @@
     <title>Life Tracker - Timer</title>
     <link rel="stylesheet" href="style.css" />
     <style>
-      /*[feat]: 타이머-화면 깜빡임, 색상 추가, 종료시 알림음 추가*/
       /* 스타일 조정 */
       body {
         text-align: center;
@@ -27,11 +26,75 @@
       }
 
       #timerSection input,
-      #timerSection p,
-      #timerSection button,
-      #stopwatchSection p,
-      #stopwatchSection button {
+      #stopwatchSection input {
         font-size: 1.5rem;
+        padding: 10px;
+        margin: 5px;
+        width: 80px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      #timerSection p,
+      #stopwatchSection p {
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 10px 0;
+      }
+
+      #timerSection button,
+      #stopwatchSection button {
+        font-size: 1.2rem;
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      #timerSection button:hover,
+      #stopwatchSection button:hover {
+        background-color: #555;
+        color: white;
+        transform: scale(1.05);
+      }
+
+      #timerSection button:active,
+      #stopwatchSection button:active {
+        background-color: #333;
+      }
+
+      #startTimerBtn {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      #stopTimerBtn {
+        background-color: #f44336;
+        color: white;
+      }
+
+      #resetTimerBtn {
+        background-color: #ffc107;
+        color: white;
+      }
+
+      #startStopwatchBtn {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      #stopStopwatchBtn {
+        background-color: #f44336;
+        color: white;
+      }
+
+      #resetStopwatchBtn {
+        background-color: #ffc107;
+        color: white;
       }
 
       .highlight {
@@ -48,6 +111,34 @@
       .blink {
         animation: blink 1s steps(2, start) infinite;
       }
+
+      /* 새로운 버튼 스타일 추가 */
+      .switch-button {
+        background-color: #333;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        margin: 5px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      .switch-button:hover {
+        background-color: #555;
+      }
+
+      .switch-button:active {
+        transform: scale(0.95);
+      }
+
+      /* 입력 필드 스타일 추가 */
+      #timerSection input {
+        border: 2px solid #333;
+        border-radius: 5px;
+        padding: 5px;
+        margin: 5px;
+      }
     </style>
   </head>
   <body>
@@ -63,36 +154,15 @@
     <img src="timer.png" alt="Timer Image" class="timer-image" />
 
     <div>
-      <button id="switchToTimer">Timer</button>
-      <button id="switchToStopwatch">Stopwatch</button>
+      <button class="switch-button" id="switchToTimer">Timer</button>
+      <button class="switch-button" id="switchToStopwatch">Stopwatch</button>
     </div>
 
     <div id="timerSection">
       <h2>Timer</h2>
-      <input
-        type="number"
-        id="hours"
-        placeholder="HH"
-        min="0"
-        max="23"
-        style="width: 50px"
-      />
-      <input
-        type="number"
-        id="minutes"
-        placeholder="MM"
-        min="0"
-        max="59"
-        style="width: 50px"
-      />
-      <input
-        type="number"
-        id="seconds"
-        placeholder="SS"
-        min="0"
-        max="59"
-        style="width: 50px"
-      />
+      <input type="number" id="hours" placeholder="HH" min="0" max="23" />
+      <input type="number" id="minutes" placeholder="MM" min="0" max="59" />
+      <input type="number" id="seconds" placeholder="SS" min="0" max="59" />
       <p id="timerDisplay">00:00:00</p>
       <div id="timerControls">
         <button id="startTimerBtn">Start</button>
