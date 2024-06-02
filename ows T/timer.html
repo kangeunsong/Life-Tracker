@@ -1,34 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
   <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Life Tracker - Timer</title>
     <link rel="stylesheet" href="style.css" />
     <style>
-      #controls {
-        margin-top: 20px;
+      /* 스타일 조정 */
+      body {
+        text-align: center;
+        font-family: "Inter", sans-serif;
       }
 
-      #controls button {
-        margin: 5px;
-      }
-
-      /*타이머 전체적으로 크기 조절*/
       #timerSection,
       #stopwatchSection {
         display: none;
-        margin-top: 30px; /* 위쪽 여백을 조정하여 섹션들 사이의 간격을 늘립니다. */
-        width: 80%; /* 섹션의 너비를 조정합니다. */
-        margin: 0 auto; /* 가운데 정렬을 위해 좌우 여백을 auto로 설정합니다. */
+        margin-top: 30px;
+        width: 80%;
+        margin: 0 auto;
       }
 
       .timer-image {
-        width: 20%; /* 이미지의 너비를 조정합니다. */
-        height: auto; /* 이미지의 비율을 유지합니다. */
+        width: 20%;
+        height: auto;
       }
 
       #timerSection input,
       #timerSection p,
-      #timerSection button {
-        font-size: 1.5rem; /* 입력 필드, 문단, 버튼의 폰트 크기를 크게 합니다. */
+      #timerSection button,
+      #stopwatchSection p,
+      #stopwatchSection button {
+        font-size: 1.5rem;
+      }
+
+      .highlight {
+        background-color: yellow;
+      }
+
+      @keyframes blink {
+        50% {
+          background-color: red;
+          color: white;
+        }
+      }
+
+      .blink {
+        animation: blink 1s steps(2, start) infinite;
       }
     </style>
   </head>
@@ -39,9 +56,8 @@
       <li><a href="timer.html" id="selected-list">Timer</a></li>
       <li><a href="song.html">Song</a></li>
       <li><a href="diary.html">Diary</a></li>
-      <li><a href="#mypage">My page</a></li>
+      <li><a href="myPage.html">My page</a></li>
     </ul>
-
     <h1>Chronometer</h1>
     <img src="timer.png" alt="Timer Image" class="timer-image" />
 
@@ -50,9 +66,8 @@
       <button id="switchToStopwatch">Stopwatch</button>
     </div>
 
-    <div id="timerSection" style="display: none">
+    <div id="timerSection">
       <h2>Timer</h2>
-
       <input
         type="number"
         id="hours"
@@ -85,7 +100,7 @@
       </div>
     </div>
 
-    <div id="stopwatchSection" style="display: none">
+    <div id="stopwatchSection">
       <h2>Stopwatch</h2>
       <p id="stopwatchDisplay">00:00:00</p>
       <div id="stopwatchControls">
@@ -132,6 +147,11 @@
           timerDisplay.textContent = `${hours}:${minutes}:${seconds}`;
         }
 
+        function playAlarm() {
+          const audio = new Audio("alarm.mp3");
+          audio.play();
+        }
+
         startTimerBtn.addEventListener("click", function () {
           const hours = parseInt(document.getElementById("hours").value) || 0;
           const minutes =
@@ -145,6 +165,11 @@
               if (totalTime <= 0) {
                 clearInterval(timerInterval);
                 timerRunning = false;
+                timerDisplay.classList.add("blink");
+                playAlarm();
+                setTimeout(() => {
+                  timerDisplay.classList.remove("blink");
+                }, 5000);
                 alert("Time's up!");
               } else {
                 totalTime--;
@@ -164,6 +189,7 @@
           clearInterval(timerInterval);
           timerRunning = false;
           timerDisplay.textContent = "00:00:00";
+          timerDisplay.classList.remove("blink");
         });
 
         // Stopwatch
