@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -22,3 +22,21 @@ const auth = getAuth(app);
 const db = getDatabase(app);
 
 export { auth, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, ref, set };
+
+export function saveUserInfo(uid, name) {
+    const userRef = ref(db, `users/${uid}`);
+    set(userRef, {
+        name: name
+    });
+}
+
+// 사용자 정보 가져오기 예시
+export async function getUserInfo(uid) {
+    const userRef = ref(db, `users/${uid}`);
+    const snapshot = await get(userRef);
+    if (snapshot.exists()) {
+        return snapshot.val();
+    } else {
+        return null;
+    }
+}
