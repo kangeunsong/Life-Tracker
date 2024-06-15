@@ -60,6 +60,9 @@
             width: 30%;
             float: right;
             margin-right: 20%;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* 수평 중앙 정렬 */
         }
 
         #blank {
@@ -96,19 +99,43 @@
             border-radius: 4px;
         }
 
-        form>div input[type="text"]:focus {
-            border-color: #80BB42;
-            box-shadow: 0px 0px 3px #80BB42;
-        }
-
         form>div input[type="text"]:disabled {
             background-color: #f9f9f9;
             border-color: #ccc;
             cursor: not-allowed;
         }
 
-        form#todo-form>div {
-            margin: 14px 0;
+        form#todo-form {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        form#todo-form>input[type="text"],
+        form#todo-form>button {
+            margin-right: 10px;
+            padding: 10px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+
+        form#todo-form>input[type="text"] {
+            background-color: #fff;
+            color: #333;
+            width: 200px; 
+        }
+
+        form#todo-form>button {
+            background-color: #cacaca;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        form#todo-form>button:hover {
+            background-color: #353535;
         }
 
         ul#todo-list {
@@ -155,7 +182,6 @@
 
         .completed {
             background-color: #f2f2f2;
-            /* 회색 배경색 */
         }
     </style>
 </head>
@@ -477,7 +503,7 @@
             <p id="date-output"></p> <br><br>
             <form id="todo-form">
                 <input type="text" placeholder="What to do?" id="todo-input" />
-                <button type="submit">Add</button>
+                <button type="submit" id="todo-add">Add</button>
             </form>
             <ul id="todo-list"></ul>
             <script src="js/todo.js"></script>
