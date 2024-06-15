@@ -2,21 +2,8 @@
 <html>
 
 <head>
+    <link rel="stylesheet" href="style.css" />
     <style>
-        @import url('https://rsms.me/inter/inter.css');
-
-        html {
-            font-family: 'Inter', sans-serif;
-            font-size: 24px;
-        }
-
-        @supports (font-variation-settings: normal) {
-            html {
-                font-family: 'Inter var', sans-serif;
-                font-size: 24px;
-            }
-        }
-
         body {
             display: flex;
             height: 100vh;
@@ -48,8 +35,7 @@
 
         input[type="text"],
         input[type="password"],
-        input[type="date"],
-        input[type="number"] {
+        input[type="date"] {
             border: 1px solid rgba(0, 0, 0, 0.1);
             box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.1);
             padding: 20px;
@@ -58,12 +44,6 @@
             width: 400px;
             box-sizing: border-box;
             font-size: 21px;
-        }
-
-        input[type="text"]:focus,
-        input[type="password"]:focus,
-        input[type="date"]:focus {
-            border: 1px solid rgba(0, 0, 0, 0.7);
         }
 
         input[type="button"] {
