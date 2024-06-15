@@ -20,16 +20,22 @@
 
         #submit-btn {
             color: white;
-            background-color: black;
+            background-color: #333;
             padding: 10px 20px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            border-radius: 10px;
-            border: 0px;
+            border-radius: 5px;
+            border: none;
             float: right;
             margin-right: 30%;
+            transform: scale(1.05);
         }
+
+        #submit-btn:hover {
+            background-color: #555;
+        }
+
 
         p {
             font-size: 20px;
@@ -68,6 +74,10 @@
             cursor: pointer;
             border-radius: 5px;
         }
+
+        #date-navigation button:hover {
+            background-color: #c2c2c2de;
+        }        
 
         #current-date {
             font-weight: bold;
@@ -120,9 +130,7 @@
         <button id="submit-btn">Save</button>
     </div>
 
-    <script src="js/diary.js" type="module">
-        loadDiary(diaryKey);
-    </script>
+    <script src="js/diary.js" type="module"></script>
 </body>
 
 </html>
