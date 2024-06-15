@@ -65,7 +65,22 @@
             align-items: center; /* 수평 중앙 정렬 */
         }
 
-        #blank {
+        .time {
+            font-size: 15px;
+            width: 45px;
+            height: 30px;
+            background-color: white !important;
+            text-align: center;
+            cursor: pointer;
+            vertical-align: middle;
+            padding: 0;
+            border-left: none !important;
+            border-right: 1px solid rgba(0, 0, 0, 0.2) !important;
+            border-top: none !important;
+            border-bottom: none !important;
+        }
+
+        .blank {
             width: 45px;
             height: 30px;
             background-color: white;
@@ -76,16 +91,6 @@
             padding: 0;
         }
 
-        #time {
-            font-size: 15px;
-            width: 45px;
-            height: 30px;
-            background-color: white !important;
-            text-align: center;
-            cursor: pointer;
-            vertical-align: middle;
-            padding: 0;
-        }
 
         #date-output {
             font-size: 28px;
@@ -228,276 +233,223 @@
         <div id="time-table">
             <table border="0" id="mainTable">
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">04</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time1" class="time"><span style="color: rgba(0, 0, 0, 0.6);">04</span></td>
+                    <td id="blank1-1" class="blank"></td>
+                    <td id="blank1-2" class="blank"></td>
+                    <td id="blank1-3" class="blank"></td>
+                    <td id="blank1-4" class="blank"></td>
+                    <td id="blank1-5" class="blank"></td>
+                    <td id="blank1-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">05</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time2" class="time"><span style="color: rgba(0, 0, 0, 0.6);">05</span></td>
+                    <td id="blank2-1" class="blank"></td>
+                    <td id="blank2-2" class="blank"></td>
+                    <td id="blank2-3" class="blank"></td>
+                    <td id="blank2-4" class="blank"></td>
+                    <td id="blank2-5" class="blank"></td>
+                    <td id="blank2-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">06</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time3" class="time"><span style="color: rgba(0, 0, 0, 0.6);">06</span></td>
+                    <td id="blank3-1" class="blank"></td>
+                    <td id="blank3-2" class="blank"></td>
+                    <td id="blank3-3" class="blank"></td>
+                    <td id="blank3-4" class="blank"></td>
+                    <td id="blank3-5" class="blank"></td>
+                    <td id="blank3-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">07</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time4" class="time"><span style="color: rgba(0, 0, 0, 0.6);">07</span></td>
+                    <td id="blank4-1" class="blank"></td>
+                    <td id="blank4-2" class="blank"></td>
+                    <td id="blank4-3" class="blank"></td>
+                    <td id="blank4-4" class="blank"></td>
+                    <td id="blank4-5" class="blank"></td>
+                    <td id="blank4-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">08</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time5" class="time"><span style="color: rgba(0, 0, 0, 0.6);">08</span></td>
+                    <td id="blank5-1" class="blank"></td>
+                    <td id="blank5-2" class="blank"></td>
+                    <td id="blank5-3" class="blank"></td>
+                    <td id="blank5-4" class="blank"></td>
+                    <td id="blank5-5" class="blank"></td>
+                    <td id="blank5-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">09</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time6" class="time"><span style="color: rgba(0, 0, 0, 0.6);">09</span></td>
+                    <td id="blank6-1" class="blank"></td>
+                    <td id="blank6-2" class="blank"></td>
+                    <td id="blank6-3" class="blank"></td>
+                    <td id="blank6-4" class="blank"></td>
+                    <td id="blank6-5" class="blank"></td>
+                    <td id="blank6-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">10</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time7" class="time"><span style="color: rgba(0, 0, 0, 0.6);">10</span></td>
+                    <td id="blank7-1" class="blank"></td>
+                    <td id="blank7-2" class="blank"></td>
+                    <td id="blank7-3" class="blank"></td>
+                    <td id="blank7-4" class="blank"></td>
+                    <td id="blank7-5" class="blank"></td>
+                    <td id="blank7-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">11</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time8" class="time"><span style="color: rgba(0, 0, 0, 0.6);">11</span></td>
+                    <td id="blank8-1" class="blank"></td>
+                    <td id="blank8-2" class="blank"></td>
+                    <td id="blank8-3" class="blank"></td>
+                    <td id="blank8-4" class="blank"></td>
+                    <td id="blank8-5" class="blank"></td>
+                    <td id="blank8-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">12</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time9" class="time"><span style="color: rgba(0, 0, 0, 0.6);">12</span></td>
+                    <td id="blank9-1" class="blank"></td>
+                    <td id="blank9-2" class="blank"></td>
+                    <td id="blank9-3" class="blank"></td>
+                    <td id="blank9-4" class="blank"></td>
+                    <td id="blank9-5" class="blank"></td>
+                    <td id="blank9-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">13</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time10" class="time"><span style="color: rgba(0, 0, 0, 0.6);">13</span></td>
+                    <td id="blank10-1" class="blank"></td>
+                    <td id="blank10-2" class="blank"></td>
+                    <td id="blank10-3" class="blank"></td>
+                    <td id="blank10-4" class="blank"></td>
+                    <td id="blank10-5" class="blank"></td>
+                    <td id="blank10-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">14</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time11" class="time"><span style="color: rgba(0, 0, 0, 0.6);">14</span></td>
+                    <td id="blank11-1" class="blank"></td>
+                    <td id="blank11-2" class="blank"></td>
+                    <td id="blank11-3" class="blank"></td>
+                    <td id="blank11-4" class="blank"></td>
+                    <td id="blank11-5" class="blank"></td>
+                    <td id="blank11-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">15</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time12" class="time"><span style="color: rgba(0, 0, 0, 0.6);">15</span></td>
+                    <td id="blank12-1" class="blank"></td>
+                    <td id="blank12-2" class="blank"></td>
+                    <td id="blank12-3" class="blank"></td>
+                    <td id="blank12-4" class="blank"></td>
+                    <td id="blank12-5" class="blank"></td>
+                    <td id="blank12-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">16</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time13" class="time"><span style="color: rgba(0, 0, 0, 0.6);">16</span></td>
+                    <td id="blank13-1" class="blank"></td>
+                    <td id="blank13-2" class="blank"></td>
+                    <td id="blank13-3" class="blank"></td>
+                    <td id="blank13-4" class="blank"></td>
+                    <td id="blank13-5" class="blank"></td>
+                    <td id="blank13-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">17</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time14" class="time"><span style="color: rgba(0, 0, 0, 0.6);">17</span></td>
+                    <td id="blank14-1" class="blank"></td>
+                    <td id="blank14-2" class="blank"></td>
+                    <td id="blank14-3" class="blank"></td>
+                    <td id="blank14-4" class="blank"></td>
+                    <td id="blank14-5" class="blank"></td>
+                    <td id="blank14-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">18</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time15" class="time"><span style="color: rgba(0, 0, 0, 0.6);">18</span></td>
+                    <td id="blank15-1" class="blank"></td>
+                    <td id="blank15-2" class="blank"></td>
+                    <td id="blank15-3" class="blank"></td>
+                    <td id="blank15-4" class="blank"></td>
+                    <td id="blank15-5" class="blank"></td>
+                    <td id="blank15-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.7);">19</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time16" class="time"><span style="color: rgba(0, 0, 0, 0.7);">19</span></td>
+                    <td id="blank16-1" class="blank"></td>
+                    <td id="blank16-2" class="blank"></td>
+                    <td id="blank16-3" class="blank"></td>
+                    <td id="blank16-4" class="blank"></td>
+                    <td id="blank16-5" class="blank"></td>
+                    <td id="blank16-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">20</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time17" class="time"><span style="color: rgba(0, 0, 0, 0.6);">20</span></td>
+                    <td id="blank17-1" class="blank"></td>
+                    <td id="blank17-2" class="blank"></td>
+                    <td id="blank17-3" class="blank"></td>
+                    <td id="blank17-4" class="blank"></td>
+                    <td id="blank17-5" class="blank"></td>
+                    <td id="blank17-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">21</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time18" class="time"><span style="color: rgba(0, 0, 0, 0.6);">21</span></td>
+                    <td id="blank18-1" class="blank"></td>
+                    <td id="blank18-2" class="blank"></td>
+                    <td id="blank18-3" class="blank"></td>
+                    <td id="blank18-4" class="blank"></td>
+                    <td id="blank18-5" class="blank"></td>
+                    <td id="blank18-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">22</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time19" class="time"><span style="color: rgba(0, 0, 0, 0.6);">22</span></td>
+                    <td id="blank19-1" class="blank"></td>
+                    <td id="blank19-2" class="blank"></td>
+                    <td id="blank19-3" class="blank"></td>
+                    <td id="blank19-4" class="blank"></td>
+                    <td id="blank19-5" class="blank"></td>
+                    <td id="blank19-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">23</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time20" class="time"><span style="color: rgba(0, 0, 0, 0.6);">23</span></td>
+                    <td id="blank20-1" class="blank"></td>
+                    <td id="blank20-2" class="blank"></td>
+                    <td id="blank20-3" class="blank"></td>
+                    <td id="blank20-4" class="blank"></td>
+                    <td id="blank20-5" class="blank"></td>
+                    <td id="blank20-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">24</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time21" class="time"><span style="color: rgba(0, 0, 0, 0.6);">24</span></td>
+                    <td id="blank21-1" class="blank"></td>
+                    <td id="blank21-2" class="blank"></td>
+                    <td id="blank21-3" class="blank"></td>
+                    <td id="blank21-4" class="blank"></td>
+                    <td id="blank21-5" class="blank"></td>
+                    <td id="blank21-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">01</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time22" class="time"><span style="color: rgba(0, 0, 0, 0.6);">01</span></td>
+                    <td id="blank22-1" class="blank"></td>
+                    <td id="blank22-2" class="blank"></td>
+                    <td id="blank22-3" class="blank"></td>
+                    <td id="blank22-4" class="blank"></td>
+                    <td id="blank22-5" class="blank"></td>
+                    <td id="blank22-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">02</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
+                    <td id="time23" class="time"><span style="color: rgba(0, 0, 0, 0.6);">02</span></td>
+                    <td id="blank23-1" class="blank"></td>
+                    <td id="blank23-2" class="blank"></td>
+                    <td id="blank23-3" class="blank"></td>
+                    <td id="blank23-4" class="blank"></td>
+                    <td id="blank23-5" class="blank"></td>
+                    <td id="blank23-6" class="blank"></td>
                 </tr>
                 <tr>
-                    <td id="time"><span style="color: rgba(0, 0, 0, 0.6);">03</span></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                    <td id="blank"></td>
-                </tr>
+                    <td id="time24" class="time"><span style="color: rgba(0, 0, 0, 0.6);">03</span></td>
+                    <td id="blank24-1" class="blank"></td>
+                    <td id="blank24-2" class="blank"></td>
+                    <td id="blank24-3" class="blank"></td>
+                    <td id="blank24-4" class="blank"></td>
+                    <td id="blank24-5" class="blank"></td>
+                    <td id="blank24-6" class="blank"></td>
+                </tr>                             
             </table>
         </div>
-
-        <script>
-            let isMouseDown = false;
-            let selectedColor = ''; // 초기 선택된 색상 ID는 빈 문자열
-            let previousSelectedCell = null;
-
-            // 첫 번째 테이블의 셀을 클릭할 때 색상을 선택하는 함수
-            document.querySelectorAll('#colorTable td div').forEach(function (cell) {
-                cell.addEventListener('click', function () {
-                    // 이전에 선택된 셀이 있다면 그림자를 원래대로 되돌림
-                    if (previousSelectedCell) {
-                        previousSelectedCell.classList.remove('selected');
-                    }
-
-                    // 현재 선택된 셀에 그림자 추가하고, ID 저장
-                    this.classList.add('selected');
-                    selectedColor = this.parentElement.id; // 부모 td의 id를 가져옴
-                    previousSelectedCell = this;
-                });
-            });
-
-            // 두 번째 테이블의 셀의 배경색을 토글하는 함수
-            function toggleCellBackground(cell) {
-                if (cell.style.backgroundColor === selectedColor) {
-                    cell.style.backgroundColor = 'white';
-                } else {
-                    cell.style.backgroundColor = selectedColor;
-                }
-            }
-
-            // 두 번째 테이블의 셀에 클릭 및 드래그 이벤트 리스너 추가
-            document.querySelectorAll('#mainTable td').forEach(function (cell) {
-                cell.addEventListener('mousedown', function () {
-                    isMouseDown = true;
-                    toggleCellBackground(this);
-                });
-
-                cell.addEventListener('mouseenter', function () {
-                    if (isMouseDown) {
-                        toggleCellBackground(this);
-                    }
-                });
-
-                cell.addEventListener('mouseup', function () {
-                    isMouseDown = false;
-                });
-            });
-
-            // 마우스 버튼이 떼어질 때 드래그 상태 해제
-            document.body.addEventListener('mouseup', function () {
-                isMouseDown = false;
-            });
-        </script>
 
         <div id="todo">
             <p id="date-output"></p> <br><br>
@@ -518,6 +470,9 @@
                 document.getElementById('date-output').textContent = dateOfToday;
             </script>
         </div>
+
+        
+    <script src="js/timetable.js" type="module"></script>
 </body>
 
 </html>
