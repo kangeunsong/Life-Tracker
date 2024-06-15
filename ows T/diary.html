@@ -117,18 +117,15 @@
                 alert(year + '년 ' + month + '월 ' + day + '일 ' + dayOfWeek + '요일 일기 제출 성공!'); */
 
                 // 영어로
-                const currentDate = new Date();
-                const year = currentDate.getFullYear();
-                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-                const month = monthNames[currentDate.getMonth()];
-                const day = currentDate.getDate();
-                const dayOfWeekNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-                const dayOfWeek = dayOfWeekNames[currentDate.getDay()];
-                alert(dayOfWeek + ' ' + day + ' ' + month + ' ' + year + '\nDiary Submission Success!');
+                // const currentDate = new Date();
+                // const year = currentDate.getFullYear();
+                // const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                // const month = monthNames[currentDate.getMonth()];
+                // const day = currentDate.getDate();
+                // const dayOfWeekNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+                // const dayOfWeek = dayOfWeekNames[currentDate.getDay()];
+                // alert(dayOfWeek + ' ' + day + ' ' + month + ' ' + year + '\nDiary Submission Success!');
             }
-
-            // 일기 입력란 초기화
-            document.getElementById('diary-textarea').value = '';
         });
 
         // 이모티콘 클릭 시 이벤트 처리
@@ -144,6 +141,8 @@
             });
         });
     </script>
+    
+    <script src="js/diary.js" type="module"></script>
 </body>
 
 </html>
