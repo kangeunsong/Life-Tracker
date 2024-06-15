@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        @import url('https://rsms.me/inter/inter.css');
+
+        html {
+            font-family: 'Inter', sans-serif;
+            font-size: 24px;
+        }
+
+        @supports (font-variation-settings: normal) {
+            html {
+                font-family: 'Inter var', sans-serif;
+                font-size: 24px;
+            }
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            background: white;
+            justify-content: center; /* 중앙정렬 */
+            align-items: center; /* 중앙정렬 */
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .signup-container {
+            display: flex;
+            justify-content: right;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        #title {
+            font-size: 70px;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="date"],
+        input[type="number"] {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 27px;
+            border-radius: 7px;
+            width: 400px;
+            box-sizing: border-box;
+            font-size: 21px;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="date"]:focus {
+            border: 1px solid rgba(0, 0, 0, 0.7);
+        }
+
+        input[type="button"] {
+            background-color: white;
+            color: #333;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 13px 26px;
+            font-size: 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+            width: 160px;
+            margin: 6px;
+        }
+
+        input[type="button"]:hover {
+            background-color: #333;
+            color: white;
+        }
+    </style>
+
+    <script>
+        function pwCHECK(pw, pwRE) {
+            if (pw !== pwRE) {
+                alert('비밀번호가 알맞지 않습니다.');
+                return false;
+            }
+            return true;
+        }
+
+        function nullCHECK(inputs) {
+            for (let input of inputs) {
+                if (input.value.trim() === '') {
+                    alert('모든 정보를 입력해주세요.');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const signupButton = document.getElementById('signup-button');
+
+            signupButton.addEventListener('click', function () {
+                const name = document.getElementById('name');
+                const account = document.getElementById('account');
+                const pw = document.getElementById('pw');
+                const pwRE = document.getElementById('pwRE');
+                const birthday = document.getElementById('birthday');
+                const ph_num = document.getElementById('ph_num');
+
+                const inputs = [name, account, pw, pwRE, birthday, ph_num];
+
+                if (nullCHECK(inputs) && pwCHECK(pw.value, pwRE.value)) {
+                    showSignupMessage();
+                }
+            });
+        });
+
+        function showSignupMessage() {
+            alert('회원가입이 성공하였습니다.');
+            window.location.href = "startPage.html";
+        }
+    </script>
+</head>
+
+<body>
+    <div class="signup-info">
+        <div>
+            <h1 id="title">회원 가입</h1>
+            <p style="color:grey">환영 어쩌고</p>
+            <br><br>
+            <form class="form-container">
+                <label for="name"></label>
+                <input type="text" id="name" placeholder="name">
+                <p></p>
+                <label for="account"></label>
+                <input type="text" id="account" placeholder="ID">
+                <label for="pw"></label>
+                <input type="password" id="pw" placeholder="password">
+                <label for="pwRE"></label>
+                <input type="password" id="pwRE" placeholder="password check">
+                <p></p>
+                <label for="birthday"></label>
+                <input type="date" id="birthday" placeholder="birthday">
+                <label for="ph_num"></label>
+                <input type="text" id="ph_num" placeholder="phone">
+
+                <div class="signup-container">
+                    <input type="button" value="Finish" id="signup-button">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth } from "firebase/app";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBMwHPB2y4xe5X4RATspyh-vdeQDxP3_co",
+            authDomain: "life-tracker-1d8ad.firebaseapp.com",
+            databaseURL: "https://life-tracker-1d8ad-default-rtdb.firebaseio.com",
+            projectId: "life-tracker-1d8ad",
+            storageBucket: "life-tracker-1d8ad.appspot.com",
+            messagingSenderId: "849733791983",
+            appId: "1:849733791983:web:75ac483e5f011e9a21eb1a"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        export const auth = getAuth(app);
+    </script>
+
+    <template>
+    <!-- // 회원가입을 위한 로그인 정보 받는 부분, 코드는 생략 -->
+    </template>
+    <script>
+        import { auth, db, USER_COLLECTION } from '../firebase/index.js'
+        import { createUserWithEmailAndPassword } from 'firebase/auth'
+
+        export default {
+            setup() {
+                const email = ref('')
+                const password = ref('')
+                const onRegister = async () => {
+                    // 회원가입에 필요한 정보를 다 입력하지 않으면 나오는 에러문구
+                    if (!email.value || !password.value || !username.value) {
+                        alert('아이디 이메일 비밀번호를 입력해주세요.')
+                    }
+                    try {
+                        const credential = await createUserWithEmailAndPassword(
+                            auth,
+                            email.value,
+                            password.value
+                        )
+                        const user = credential.user
+                    } catch (err) {
+                        switch (err.code) {
+                            case 'auth/invalid-email':
+                                alert('이메일을 바르게 입력해주세요.')
+                                break
+                            case 'auth/weak-password':
+                                alert('비밀번호가 너무 쉬워요.')
+                                break
+                            case 'auth/email-already-in-use':
+                                alert('등록된 이메일 입니다.')
+                                break
+                            default:
+                                alert('회원가입 실패')
+                                break
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -78,7 +78,7 @@
 
         input[type="text"],
         input[type="password"] {
-            border: 1px solid rgb(221, 221, 221);
+            border: 1px solid rgba(0, 0, 0, 0.1);
             box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.1);
             padding: 20px;
             margin-top: 27px;
@@ -91,7 +91,7 @@
         input[type="button"] {
             background-color: white;
             color: #333;
-            border: 3px solid #333;
+            border: 1px solid rgba(0, 0, 0, 0.1);
             padding: 13px 26px;
             font-size: 15px;
             border-radius: 6px;
@@ -145,12 +145,80 @@
             window.location.href = "scheduler.html";
         }
 
-        function showSignupMessage() {
-            alert('회원가입이 성공하였습니다.');
+        function redirectToSignup(){
+            window.location.href = "signup.html";
         }
 
         loginButton.addEventListener('click', redirectToScheduler);
-        signupButton.addEventListener('click', showSignupMessage);
+        signupButton.addEventListener('click', redirectToSignup);
+    </script>
+
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth } from "firebase/app";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBMwHPB2y4xe5X4RATspyh-vdeQDxP3_co",
+            authDomain: "life-tracker-1d8ad.firebaseapp.com",
+            databaseURL: "https://life-tracker-1d8ad-default-rtdb.firebaseio.com",
+            projectId: "life-tracker-1d8ad",
+            storageBucket: "life-tracker-1d8ad.appspot.com",
+            messagingSenderId: "849733791983",
+            appId: "1:849733791983:web:75ac483e5f011e9a21eb1a"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        export const auth = getAuth(app);
+    </script>
+
+    <temaplate>
+	<!-- // 회원가입을 위한 로그인 정보 받는 부분, 코드는 생략 -->
+    </temaplate>
+    <script>   
+        import { auth, db, USER_COLLECTION } from '../firebase/index.js'
+        import { createUserWithEmailAndPassword } from 'firebase/auth'
+
+        export default {
+            setup(){
+            const email = ref('')
+            const password = ref('')
+            const onRegister = async () => {
+            // 회원가입에 필요한 정보를 다 입력하지 않으면 나오는 에러문구
+                if (!email.value || !password.value || !username.value) {
+                    alert('아이디 이메일 비밀번호를 입력해주세요.')
+                }
+                try {
+                    const credential = await createUserWithEmailAndPassword(
+                        auth,
+                        email.value,
+                        password.value
+                    )
+                    const user = credential.user
+                } catch (err) {
+                    switch (err.code) {
+                        case 'auth/invalid-email':
+                            alert('이메일을 바르게 입력해주세요.')
+                            break
+                        case 'auth/weak-password':
+                            alert('비밀번호가 너무 쉬워요.')
+                            break
+                        case 'auth/email-already-in-use':
+                            alert('등록된 이메일 입니다.')
+                            break
+                        default:
+                            alert('회원가입 실패')
+                            break
+                    }
+                }  
+            }
+        }
+    }
     </script>
 </body>
 
