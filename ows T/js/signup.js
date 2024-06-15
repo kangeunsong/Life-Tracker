@@ -1,4 +1,4 @@
-import { auth, createUserWithEmailAndPassword } from './firebase.js';
+import { auth, db, ref, set, createUserWithEmailAndPassword } from './firebase.js';
 
 // DOM Loaded event listener
 document.addEventListener('DOMContentLoaded', function () {
@@ -23,11 +23,11 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        registerUser(account, pw, name, birthday, ph_num);
+        registerUser(account, pw, pwRE, name, birthday, ph_num);
     });
 });
 
-async function registerUser(email, password, name, birthday, phone) {
+async function registerUser(email, password, passwordDB, name, birthday, phone) {
     try {
         console.log('Creating user with email and password');
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -40,7 +40,7 @@ async function registerUser(email, password, name, birthday, phone) {
             uid: user.uid,
             name: name,
             email: email,
-            password: password,
+            password: passwordDB,
             birthday: birthday,
             phone: phone
         });
