@@ -45,6 +45,6 @@ async function saveDiary(diaryContent) {
         alert(dayOfWeek + ' ' + day + ' ' + month + ' ' + year + '\nDiary Submission Success!');
     } catch (error) {
         console.error('Error during diary submission:', error);
-        alert('Diary Submission Fail!\n');
+        alert('Diary Submission Fail!\nPlease try again');
     }
 }
