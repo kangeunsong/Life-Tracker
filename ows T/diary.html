@@ -55,6 +55,24 @@
         td.selected {
             text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.7);
         }
+
+        #date-navigation {
+            font-size: 25px;
+        }
+
+        #date-navigation button {
+            background-color: #eeeeeede;
+            border: 1px solid #ffffff;
+            padding: 5px 10px;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #current-date {
+            font-weight: bold;
+            margin: 0 10px;
+        }
     </style>
 </head>
 
@@ -64,9 +82,17 @@
         <li><a href="scheduler.html">Scheduler</a></li>
         <li><a href="timer.html">Timer</a></li>
         <li><a href="song.html" >Song</a></li>
-        <li><a href="diary.html">Diary</a></li>
-        <li><a href="myPage.html"id="selected-list">My page</a></li>
+        <li><a href="diary.html" id="selected-list">Diary</a></li>
+        <li><a href="myPage.html">My page</a></li>
     </ul>
+
+    <br>
+
+    <div id="date-navigation">
+        <button id="prev-date-btn">&lt;</button>
+        <span id="current-date"></span>
+        <button id="next-date-btn">&gt;</button>
+    </div>
 
     <br><br><br>
 
@@ -94,22 +120,9 @@
         <button id="submit-btn">Save</button>
     </div>
 
-    <script>
-        // 이모티콘 클릭 시 이벤트 처리
-        document.querySelectorAll('#emotion-table td').forEach(function (td) {
-            td.addEventListener('click', function () {
-                // 모든 td 요소에서 selected 클래스 제거
-                document.querySelectorAll('#emotion-table td').forEach(function (td) {
-                    td.classList.remove('selected');
-                });
-
-                // 클릭된 td 요소에 selected 클래스 추가
-                this.classList.add('selected');
-            });
-        });
+    <script src="js/diary.js" type="module">
+        loadDiary(diaryKey);
     </script>
-    
-    <script src="js/diary.js" type="module"></script>
 </body>
 
 </html>

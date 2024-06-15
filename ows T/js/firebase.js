@@ -21,7 +21,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
 
-export { auth, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, ref, set };
+export { auth, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, ref, set, get };
 
 // export function saveUserInfo(uid, name) {
 //     const userRef = ref(db, `users/${uid}`);
@@ -32,11 +32,17 @@ export { auth, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, r
 
 // 사용자 정보 가져오기 예시
 export async function getUserInfo(uid) {
-    const userRef = ref(db, `users/${uid}`);
-    const snapshot = await get(userRef);
-    if (snapshot.exists()) {
-        return snapshot.val();
-    } else {
-        return null;
+    try {
+        const userRef = ref(db, `users/${uid}`);
+        const snapshot = await get(userRef);
+        
+        if (snapshot.exists()) {
+            return snapshot.val(); // Return user data if exists
+        } else {
+            return null; // Return null if user data doesn't exist
+        }
+    } catch (error) {
+        console.error("Error fetching user info:", error);
+        throw error; // Throw error for handling in calling function
     }
 }
