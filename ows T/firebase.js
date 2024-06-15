@@ -1,0 +1,24 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyBMwHPB2y4xe5X4RATspyh-vdeQDxP3_co",
+    authDomain: "life-tracker-1d8ad.firebaseapp.com",
+    databaseURL: "https://life-tracker-1d8ad-default-rtdb.firebaseio.com",
+    projectId: "life-tracker-1d8ad",
+    storageBucket: "life-tracker-1d8ad.appspot.com",
+    messagingSenderId: "849733791983",
+    appId: "1:849733791983:web:75ac483e5f011e9a21eb1a"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+// Authentication 객체 생성
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+export { auth, db, createUserWithEmailAndPassword, signInWithEmailAndPassword, ref, set };
