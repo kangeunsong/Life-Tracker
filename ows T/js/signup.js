@@ -1,6 +1,5 @@
 import { auth, db, ref, set, createUserWithEmailAndPassword } from './firebase.js';
 
-// DOM Loaded event listener
 document.addEventListener('DOMContentLoaded', function () {
     const signupButton = document.getElementById('signup-button');
 
@@ -12,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const birthday = document.getElementById('birthday').value;
         const ph_num = document.getElementById('ph_num').value;
 
-        // Validation
         if (name === '' || account === '' || pw === '' || pwRE === '' || birthday === '' || ph_num === '') {
             alert('모든 정보를 입력해주세요.');
             return;
@@ -32,10 +30,6 @@ async function registerUser(email, password, passwordDB, name, birthday, phone) 
         console.log('Creating user with email and password');
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-        console.log('User created:', user);
-
-        // Store user data in Realtime Database
-        console.log('Storing user data in Realtime Database');
         await set(ref(db, 'users/' + user.uid), {
             uid: user.uid,
             name: name,

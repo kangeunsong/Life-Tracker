@@ -13,10 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let day = ('0' + currentDate.getDate()).slice(-2);
     let diaryKey = `${year}${month}${day}`;
 
-    // Set initial date display
+    // 현재 날짜 설정
     currentDateElem.textContent = `${year}년 ${month}월 ${day}일`;
 
-    // Handle click events for emotion selection
     emotionCells.forEach(function (td) {
         td.addEventListener('click', function () {
             emotionCells.forEach(function (cell) {
@@ -26,21 +25,18 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Handle previous date button click
     prevDateBtn.addEventListener('click', function () {
         currentDate.setDate(currentDate.getDate() - 1);
         updateDate();
         loadDiary(diaryKey);
     });
 
-    // Handle next date button click
     nextDateBtn.addEventListener('click', function () {
         currentDate.setDate(currentDate.getDate() + 1);
         updateDate();
         loadDiary(diaryKey);
     });
 
-    // Handle save button click
     saveButton.addEventListener('click', function () {
         const selectedEmotion = document.querySelector('#emotion-table td.selected');
         if (!selectedEmotion) {
@@ -56,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function () {
         saveDiary(emotionIndex, diaryContent, diaryKey);
     });
 
-    // Function to update displayed date
     function updateDate() {
         year = currentDate.getFullYear();
         month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
@@ -65,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function () {
         currentDateElem.textContent = `${year}년 ${month}월 ${day}일`;
     }
 
-    // Function to load diary content
     async function loadDiary(diaryKey) {
         try {
             const user = auth.currentUser;
@@ -103,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Function to save diary content
     async function saveDiary(emotion, diaryContent, diaryKey) {
         try {
             const user = auth.currentUser;
@@ -124,7 +117,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // Check authentication state and load diary if user is authenticated
     auth.onAuthStateChanged((user) => {
         if (user) {
             loadDiary(diaryKey);
