@@ -118,56 +118,10 @@
                 const inputs = [name, account, pw, pwRE, birthday, ph_num];
 
                 if (nullCHECK(inputs) && pwCHECK(pw.value, pwRE.value)) {
-                    registerUser(account.value, pw.value, name.value, birthday.value, ph_num.value);
+                    registerUser(account.value, pw.value, pwRE.value, name.value, birthday.value, ph_num.value);
                 }
             });
         });
-
-        async function registerUser(email, password, name, birthday, phone) {
-            try {
-                const { createUserWithEmailAndPassword } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
-                const { getAuth } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js');
-                const { getDatabase, ref, set } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js');
-                
-                console.log('Initializing Firebase Auth and Realtime Database');
-                const auth = getAuth();
-                const db = getDatabase();
-
-                console.log('Creating user with email and password');
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-                console.log('User created:', user);
-
-                // 사용자 데이터를 Realtime Database에 저장
-                console.log('Storing user data in Realtime Database');
-                await set(ref(db, 'users/' + user.uid), {
-                    uid: user.uid,
-                    name: name,
-                    email: email,
-                    birthday: birthday,
-                    phone: phone
-                });
-
-                alert('회원가입이 성공하였습니다.');
-                window.location.href = "startPage.html";
-            } catch (error) {
-                console.error('Error during registration:', error);
-                switch (error.code) {
-                    case 'auth/invalid-email':
-                        alert('이메일을 바르게 입력해주세요.');
-                        break;
-                    case 'auth/weak-password':
-                        alert('비밀번호가 너무 쉬워요.');
-                        break;
-                    case 'auth/email-already-in-use':
-                        alert('등록된 이메일 입니다.');
-                        break;
-                    default:
-                        alert('회원가입 실패');
-                        break;
-                }
-            }
-        }
     </script>
 </head>
 
