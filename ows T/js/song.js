@@ -1,5 +1,3 @@
-//노래추천 관련 함수 모음
-
 const tracks = [
   {
     artist: "Kanye West",
