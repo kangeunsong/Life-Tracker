@@ -83,25 +83,6 @@
             }
             return true;
         }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const signupButton = document.getElementById('signup-button');
-
-            signupButton.addEventListener('click', function () {
-                const name = document.getElementById('name');
-                const account = document.getElementById('account');
-                const pw = document.getElementById('pw');
-                const pwRE = document.getElementById('pwRE');
-                const birthday = document.getElementById('birthday');
-                const ph_num = document.getElementById('ph_num');
-
-                const inputs = [name, account, pw, pwRE, birthday, ph_num];
-
-                if (nullCHECK(inputs) && pwCHECK(pw.value, pwRE.value)) {
-                    registerUser(account.value, pw.value, pwRE.value, name.value, birthday.value, ph_num.value);
-                }
-            });
-        });
     </script>
 </head>
 
