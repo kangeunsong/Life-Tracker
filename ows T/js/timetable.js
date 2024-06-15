@@ -102,9 +102,9 @@ document.querySelectorAll('#mainTable td').forEach(function (cell, index) {
 
         
         if(cell.style.backgroundColor != 'white'){
-            setTimeTable(cell, index, 1, 1);
+            setTimeTable(cell, index, selectedColor, 1);
         } else {
-            setTimeTable(cell, index, 1, 0);
+            setTimeTable(cell, index, selectedColor, 0);
         }
     });
     
