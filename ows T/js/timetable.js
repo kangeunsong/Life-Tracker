@@ -9,7 +9,8 @@ let year = currentDate.getFullYear();
 let month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
 let day = ('0' + currentDate.getDate()).slice(-2);
 let dateKey = `${year}${month}${day}`;
-let flag = 0;
+let startflag = 0;
+let startindex = 0;
 
 // 첫 번째 테이블의 셀을 클릭할 때 색상을 선택하는 함수
 document.querySelectorAll('#colorTable td div').forEach(function (cell) {
@@ -89,23 +90,33 @@ document.querySelectorAll('#mainTable td').forEach(function (cell, index) {
     cell.addEventListener('mousedown', function () {
         isMouseDown = true;
         toggleCellBackground(this);
+        if(!startflag){
+            if(cell.style.backgroundColor != 'white'){
+                setTimeTable(cell, index, selectedColor, 1);
+            } else {
+                setTimeTable(cell, index, selectedColor, 0);
+            }
+            startindex = index;
+        }
     });
 
     cell.addEventListener('mouseenter', function () {
         if (isMouseDown) {
-            toggleCellBackground(this);
+            if(index!=startindex){
+                toggleCellBackground(this);
+                if(cell.style.backgroundColor != 'white'){
+                    setTimeTable(cell, index, selectedColor, 1);
+                } else {
+                    setTimeTable(cell, index, selectedColor, 0);
+                }
+            }
         }
     });
 
     cell.addEventListener('mouseup', function () {
         isMouseDown = false;
-
-        
-        if(cell.style.backgroundColor != 'white'){
-            setTimeTable(cell, index, selectedColor, 1);
-        } else {
-            setTimeTable(cell, index, selectedColor, 0);
-        }
+        startflag = 0;
+        startindex = 0;
     });
     
     // 두 번째 테이블의 셀의 배경색을 토글하는 함수
