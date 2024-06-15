@@ -34,11 +34,15 @@
             bottom: 20px;
             right: 20px;
             padding: 10px 20px;
-            background-color: #333;
+            background-color: rgba(0,0,0,0.5);
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+        }
+
+        #logout:hover {
+            background-color: black;
         }
     </style>
 </head>
@@ -149,7 +153,7 @@
 
     <script type="module" src="js/logout.js"></script>
     <script type="module">
-        import { auth, getUserInfo } from './firebase.js';
+        import { auth, getUserInfo } from './js/firebase.js';
 
         auth.onAuthStateChanged(async (user) => {
             if (user) {
@@ -160,24 +164,6 @@
                         document.getElementById('user-greeting').textContent = `${userName}님 잘하고 있어요!`;
                     } else {
                     console.error('사용자 정보가 없습니다.');
-                    }
-                } catch (error) {
-                    console.error('사용자 정보를 가져오는 중 에러 발생:', error);
-                }
-            } else {
-                console.log('사용자가 로그인하지 않았습니다.');
-            }
-        });
-
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                try {
-                    const userInfo = await getUserInfo(user.uid);
-                    if (userInfo) {
-                        const userName = userInfo.name;
-                        document.getElementById('user-greeting').textContent = `${userName}님 잘하고 있어요!`;
-                    } else {
-                        console.error('사용자 정보가 없습니다.');
                     }
                 } catch (error) {
                     console.error('사용자 정보를 가져오는 중 에러 발생:', error);
