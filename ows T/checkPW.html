@@ -96,8 +96,35 @@
     <button id="modify">modify</button>
     <button id="logout">Log out</button>
 
-    <script>
-        const correctPassword = 'your_password_here'; // 여기서 비교할 올바른 비밀번호를 설정합니다.
+    <script type="module">
+        import { auth, db, ref, set, get, getUserInfo } from './js/firebase.js';     
+
+        let correctPassword;
+
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                try {
+                    const userInfo = await getUserInfo(user.uid);
+
+                    if (userInfo) {
+                        const userName = userInfo.name;
+                        const userUid = userInfo.uid;
+                        let path = `users/${userUid}`;
+                        const userSnapshot = await get(ref(db, path));
+                        const uservalue = userSnapshot.val();
+
+                        correctPassword = uservalue.password;
+                        console.log(correctPassword);
+                    } else {
+                    console.error('사용자 정보가 없습니다.');
+                    }
+                } catch (error) {
+                    console.error('사용자 정보를 가져오는 중 에러 발생:', error);
+                }
+            } else {
+                console.log('사용자가 로그인하지 않았습니다.');
+            }
+        });
 
         document.getElementById('confirm').addEventListener('click', () => {
             const enteredPassword = document.getElementById('pwRE').value;
