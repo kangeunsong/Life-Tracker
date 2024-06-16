@@ -13,37 +13,6 @@
             background: white;
         }
 
-        #logout {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background-color: #cacaca;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        #logout:hover {
-            background-color: black;
-        }
-
-        #modify {
-            position: fixed;
-            bottom: 60px;
-            right: 20px;
-            padding: 10px 20px;
-            background-color: #cacaca;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        #modify:hover {
-            background-color: black;
-        }
 
         .form-group {
             display: flex;
@@ -73,6 +42,21 @@
         #confirm:hover {
             background-color: black;
         }
+            #back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #cacaca;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #back-button:hover {
+            background-color: black;
+        }
+        
     </style>
 </head>
 
@@ -93,8 +77,6 @@
         <button id="confirm">확인</button>
     </div>
 
-    <button id="modify">modify</button>
-    <button id="logout">Log out</button>
 
     <script type="module">
         import { auth, db, ref, set, get, getUserInfo } from './js/firebase.js';     
@@ -139,6 +121,14 @@
             window.location.href = 'infoModify.html';
         });
     </script>
+        <button type="button" id="back-button">Back</button>
+
+        <script>
+            document.getElementById('back-button').addEventListener('click', () => {
+                window.location.href = 'myPage.html';
+            });
+            
+        </script>
 </body>
 
 </html>
