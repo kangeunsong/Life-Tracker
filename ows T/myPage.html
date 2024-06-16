@@ -30,8 +30,7 @@
             width: 45%;
         }
 
-        #logout {
-            position: fixed;
+        #logout, #modify {
             bottom: 20px;
             right: 20px;
             padding: 10px 20px;
@@ -40,26 +39,23 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            align-self: flex-end;
         }
 
         #logout:hover {
             background-color: black;
         }
 
-        #modify {
-            position: fixed;
-            bottom: 60px;
-            right: 20px;
-            padding: 10px 20px;
-            background-color: #cacaca;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
         #modify:hover {
             background-color: black;
+        }
+
+        .bottom {
+            bottom: 20px;
+            margin-right: 380px;
+            display: flex;
+            flex-direction: column; /* 수직 정렬 */
+            gap: 10px; /* 버튼 사이의 간격 조절 */
         }
     </style>
 </head>
@@ -88,8 +84,16 @@
         </div>
     </div>
 
-    <button id="logout">Log out</button>
-    <button id="modify">modify</button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div class="bottom">
+        <button id="modify">modify</button>
+        <button id="logout">Log out</button>
+    </div>
 
     <script type="module">
         import { auth, db, ref, set, get, getUserInfo } from './js/firebase.js';     
