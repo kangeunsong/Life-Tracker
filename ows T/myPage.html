@@ -79,7 +79,7 @@
             { date: '2024-05-20', completed: true },
             { date: '2024-05-21', completed: false },
             { date: '2024-05-22', completed: true },
-            { date: '2024-05-22', completed: true },
+            { date: '2024-05-22', completed: false },
             { date: '2024-05-22', completed: false }
         ];
 
@@ -92,7 +92,7 @@
         const weeklyChartCtx = document.getElementById('weeklyChart').getContext('2d');
         const monthlyChartCtx = document.getElementById('monthlyChart').getContext('2d');
 
-        const weeklyData = [1, 2, 3, 4, 5, 6, 7];
+        const weeklyData = [1, 2, 8, 4, 7, 9, 2];
         const monthlyData = [3, 2, 5, 7, 8, 6, 5, 4, 6, 7, 8, 9];
 
         new Chart(weeklyChartCtx, {
@@ -162,7 +162,12 @@
                     const userInfo = await getUserInfo(user.uid);
                     if (userInfo) {
                         const userName = userInfo.name;
-                        document.getElementById('user-greeting').textContent = `${userName}님 잘하고 있어요!`;
+                        if(completedTasks / totalTasks > 0.5){
+                            document.getElementById('user-greeting').textContent = `${userName}님 잘하고 있어요!`;
+                        }
+                        else{
+                            document.getElementById('user-greeting').textContent = `${userName}님 조금 더 분발하세요!`;
+                        }
                     } else {
                     console.error('사용자 정보가 없습니다.');
                     }
@@ -174,6 +179,7 @@
             }
         });
     </script>
+    
 </body>
 
 </html>
