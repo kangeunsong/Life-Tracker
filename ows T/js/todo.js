@@ -1,72 +1,184 @@
-//할일 추가 삭제하는 함수 모음
+import { auth, db, ref, get, set, getUserInfo, uuidv4 } from './firebase.js';
 
+let currentDate = new Date();
+let year = currentDate.getFullYear();
+let month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
+let day = ('0' + currentDate.getDate()).slice(-2);
+let dateKey = `${year}${month}${day}`;
+
+// 할 일 폼, 입력 요소, 할 일 리스트를 DOM에서 가져옵니다.
 const toDoForm = document.querySelector("#todo-form");
 const toDoInput = document.querySelector("#todo-form input");
 const toDoList = document.querySelector("#todo-list");
 
-const TODOS_KEY = "todos";
-const savedToDo = localStorage.getItem(TODOS_KEY);
+// 할 일 목록을 저장할 배열을 초기화합니다.
 let toDos = [];
+let selectedNum = 0;
 
-if (savedToDo !== null) {
-  const parsedToDo = JSON.parse(savedToDo);
-  toDos = parsedToDo;
-  console.log(parsedToDo);
-  parsedToDo.forEach(addToDo);
-}
+// Firebase에서 할 일 목록을 가져와 화면에 추가합니다.
+auth.onAuthStateChanged(async (user) => {
+  if (user) {
+    try {
+      const userInfo = await getUserInfo(user.uid);
+      const userUid = userInfo.uid;
+      const path = `scheduler/${userUid}/${dateKey}/todoList`;
+      const snapshot = await get(ref(db, path));
 
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        selectedNum = data.selectedNum || 0;
+
+        if(data.selectedNum == null){
+          await set(ref(db, path), {
+            selectedNum: 0
+          });
+        } else {
+          selectedNum = data.selectedNum;
+        }
+        if(data.totalNum == null){
+          await set(ref(db, path), {
+            totalNum: 0
+          });
+        }
+
+        // 현재 페이지 로드 시, 할 일 목록 및 화면에 추가
+        for (const key in data) {
+          if (key !== 'totalNum' && key !== 'selectedNum' && data[key].todoText) {
+            const newToDoObj = {
+              text: data[key].todoText,
+              todoID: key
+            };
+            toDos.push(newToDoObj);
+            addToDo(newToDoObj);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('사용자 정보를 가져오는 중 에러 발생:', error);
+    }
+  } else {
+    console.log('사용자가 로그인하지 않았습니다.');
+  }
+});
+
+// 할 일 폼이 제출되면 handleToDoSubmit 함수를 호출합니다.
 toDoForm.addEventListener("submit", handleToDoSubmit);
 
-function saveToDo() {
-  localStorage.setItem(TODOS_KEY, JSON.stringify(toDos));
+async function updateTotalNum(userUid) {
+  const path = `scheduler/${userUid}/${dateKey}/todoList/totalNum`;
+  await set(ref(db, path), toDos.length);
 }
 
-function deleteToDo(event) {
+async function updateSelectedNum(userUid, newSelectedNum) {
+  const path = `scheduler/${userUid}/${dateKey}/todoList/selectedNum`;
+  await set(ref(db, path), newSelectedNum);
+}
+
+function saveToDo(newToDoObj) {
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      try {
+        const userInfo = await getUserInfo(user.uid);
+        const userUid = userInfo.uid;
+
+        const path = `scheduler/${userUid}/${dateKey}/todoList/${newToDoObj.todoID}`;
+        await set(ref(db, path), {
+          todoText: newToDoObj.text
+        });
+
+        await updateTotalNum(userUid);
+      } catch (error) {
+        console.error('사용자 정보를 가져오는 중 에러 발생:', error);
+      }
+    } else {
+      console.log('사용자가 로그인하지 않았습니다.');
+    }
+  });
+}
+
+function deleteToDo(event, newToDoObj) {
   const li = event.target.parentElement;
-  toDos = toDos.filter((todo) => todo.id !== parseInt(li.id));
-  saveToDo();
+  toDos = toDos.filter((todo) => todo.todoID !== newToDoObj.todoID);
+
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      try {
+        const userInfo = await getUserInfo(user.uid);
+        const userUid = userInfo.uid;
+
+        const path = `scheduler/${userUid}/${dateKey}/todoList/${newToDoObj.todoID}`;
+        await set(ref(db, path), null);
+
+        await updateTotalNum(userUid);
+      } catch (error) {
+        console.error('사용자 정보를 가져오는 중 에러 발생:', error);
+      }
+    } else {
+      console.log('사용자가 로그인하지 않았습니다.');
+    }
+  });
+
   li.remove();
 }
 
 function addToDo(newToDoObj) {
   const li = document.createElement("li");
-  li.id = newToDoObj.id;
+  li.id = newToDoObj.todoID;
   
-  // 체크박스 생성
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
-  // 체크박스의 체크 상태를 저장하기 위해 id 설정
-  checkbox.id = "checkbox-" + newToDoObj.id; 
-  // 체크박스 상태 변경 시 이벤트 리스너 추가
+  checkbox.id = "checkbox-" + newToDoObj.todoID;
+  console.log(checkbox.id);
   checkbox.addEventListener("change", handleCheckBoxChange);
   
   const span = document.createElement("span");
   const btn = document.createElement("button");
   span.innerText = newToDoObj.text;
   btn.innerText = "Delete";
-  btn.addEventListener("click", deleteToDo);
+  btn.addEventListener("click", (event) => deleteToDo(event, newToDoObj));
 
-  saveToDo();
+  saveToDo(newToDoObj);
 
-  li.appendChild(checkbox); // 체크박스를 li 요소에 추가
+  li.appendChild(checkbox);
   li.appendChild(span);
   li.appendChild(btn);
   toDoList.appendChild(li);
 }
 
 function handleCheckBoxChange(event) {
-  const checkboxId = event.target.id;
-  const todoId = parseInt(checkboxId.split("-")[1]);
-  const todoItem = document.getElementById(todoId);
-  
-  // 체크박스의 체크 상태에 따라 스타일을 변경하거나 할 일을 수행할 수 있습니다.
-  if (event.target.checked) {
-    todoItem.classList.add("completed"); // 체크된 경우 완료된 스타일을 추가할 수 있습니다.
-  } else {
-    todoItem.classList.remove("completed"); // 체크가 해제된 경우 완료된 스타일을 제거할 수 있습니다.
-  }
-}
+  const todoId = event.target.id
 
+  // 비동기 함수 내에서 정확히 찾기 위해 DOM을 업데이트하기 전에 직접 찾습니다.
+  const todoItem = document.getElementById(todoId);
+
+  if (!todoItem) {
+    console.error('Todo item not found for id:', todoId);
+    return;
+  }
+
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      try {
+        const userInfo = await getUserInfo(user.uid);
+        const userUid = userInfo.uid;
+    
+        if (event.target.checked) {
+          todoItem.classList.add("completed");
+          selectedNum++;
+        } else {
+          todoItem.classList.remove("completed");
+          selectedNum--;
+        }
+  
+        await updateSelectedNum(userUid, selectedNum);
+      } catch (error) {
+        console.error('체크 상태 업데이트 중 에러 발생:', error);
+      }
+    } else {
+      console.log('사용자가 로그인하지 않았습니다.');
+    }
+  });
+}
 
 function handleToDoSubmit(event) {
   event.preventDefault();
@@ -74,7 +186,7 @@ function handleToDoSubmit(event) {
   toDoInput.value = "";
   const newToDoObj = {
     text: newToDo,
-    id: Date.now(),
+    todoID: uuidv4()
   };
   toDos.push(newToDoObj);
   addToDo(newToDoObj);
