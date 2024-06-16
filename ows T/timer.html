@@ -12,6 +12,42 @@
         font-family: "Inter", sans-serif;
       }
 
+      /* Dropdown Menu 스타일 */
+      .dropdown {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+      }
+
+      .dropdown-content a:hover {
+        background-color: #f1f1f1;
+      }
+
+      #timerTitle {
+        font-size: 45px;
+        padding: 50px 0;
+      }
+
       #timerSection,
       #stopwatchSection {
         display: none;
@@ -141,22 +177,24 @@
       }
     </style>
   </head>
+
   <body>
-    <h1>Life Tracker</h1>
+    <h1 id="common-title">Life Tracker</h1>
     <ul>
       <li><a href="scheduler.html">Scheduler</a></li>
-      <li><a href="timer.html" id="selected-list">Timer</a></li>
+      <li class="dropdown">
+        <a href="timer.html" id="selected-list">Timer</a>
+        <div class="dropdown-content">
+          <a href="#" id="switchToTimer">Timer</a>
+          <a href="#" id="switchToStopwatch">Stopwatch</a>
+        </div>
+      </li>
       <li><a href="song.html">Song</a></li>
       <li><a href="diary.html">Diary</a></li>
       <li><a href="myPage.html">My page</a></li>
     </ul>
-    <h1>Chronometer</h1>
+    <h1 id="timerTitle">Chronometer</h1>
     <img src="timer.png" alt="Timer Image" class="timer-image" />
-
-    <div>
-      <button class="switch-button" id="switchToTimer">Timer</button>
-      <button class="switch-button" id="switchToStopwatch">Stopwatch</button>
-    </div>
 
     <div id="timerSection">
       <h2>Timer</h2>
