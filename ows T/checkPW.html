@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <title>Life Tracker - Mypage</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: white;
+        }
+
+        #logout {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #cacaca;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #logout:hover {
+            background-color: black;
+        }
+
+        #modify {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #cacaca;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #modify:hover {
+            background-color: black;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .form-group input {
+            margin-right: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #confirm {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #cacaca;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #confirm:hover {
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Life Tracker</h1>
+    <ul>
+        <li><a href="scheduler.html">Scheduler</a></li>
+        <li><a href="timer.html">Timer</a></li>
+        <li><a href="song.html">Song</a></li>
+        <li><a href="diary.html">Diary</a></li>
+        <li><a href="myPage.html" id="selected-list">My page</a></li>
+    </ul>
+    <div class="form-group">
+        <h2>비밀번호를 입력해주세요</h2>
+    </div>
+    <div class="form-group">
+        <input type="password" id="pwRE" placeholder="password check">
+        <button id="confirm">확인</button>
+    </div>
+
+    <button id="modify">modify</button>
+    <button id="logout">Log out</button>
+
+    <script>
+        const correctPassword = 'your_password_here'; // 여기서 비교할 올바른 비밀번호를 설정합니다.
+
+        document.getElementById('confirm').addEventListener('click', () => {
+            const enteredPassword = document.getElementById('pwRE').value;
+            if (enteredPassword === correctPassword) {
+                window.location.href = 'infomodify.html';
+            } else {
+                alert('비밀번호가 틀렸습니다.');
+            }
+        });
+
+        document.getElementById('확인').addEventListener('click', () => {
+            window.location.href = 'infoModify.html';
+        });
+    </script>
+</body>
+
+</html>

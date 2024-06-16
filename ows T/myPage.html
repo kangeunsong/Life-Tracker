@@ -35,7 +35,7 @@
             bottom: 20px;
             right: 20px;
             padding: 10px 20px;
-            background-color: #333;
+            background-color: #cacaca;
             color: white;
             border: none;
             border-radius: 5px;
@@ -43,6 +43,22 @@
         }
 
         #logout:hover {
+            background-color: black;
+        }
+
+        #modify {
+            position: fixed;
+            bottom: 60px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #cacaca;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #modify:hover {
             background-color: black;
         }
     </style>
@@ -73,6 +89,7 @@
     </div>
 
     <button id="logout">Log out</button>
+    <button id="modify">modify</button>
 
     <script type="module">
         import { auth, db, ref, set, get, getUserInfo } from './js/firebase.js';     
@@ -212,6 +229,9 @@
 
         document.getElementById('logout').addEventListener('click', () => {
             window.location.href = 'startPage.html';
+        });
+        document.getElementById('modify').addEventListener('click', () => {
+            window.location.href = 'checkPW.html';
         });
     </script>
 
