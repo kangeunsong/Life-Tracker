@@ -35,18 +35,14 @@ auth.onAuthStateChanged(async (user) => {
         } else {
           selectedNum = data.selectedNum;
         }
-        if(data.totalNum == null){
-          await set(ref(db, path), {
-            totalNum: 0
-          });
-        }
 
         // 현재 페이지 로드 시, 할 일 목록 및 화면에 추가
         for (const key in data) {
           if (key !== 'totalNum' && key !== 'selectedNum' && data[key].todoText) {
             const newToDoObj = {
               text: data[key].todoText,
-              todoID: key
+              todoID: key,
+              value: data[key].value
             };
             toDos.push(newToDoObj);
             addToDo(newToDoObj);
@@ -127,7 +123,7 @@ function addToDo(newToDoObj) {
   
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
-  checkbox.id = "checkbox-" + newToDoObj.todoID;
+  checkbox.id = newToDoObj.todoID;
   console.log(checkbox.id);
   checkbox.addEventListener("change", handleCheckBoxChange);
   
@@ -145,7 +141,7 @@ function addToDo(newToDoObj) {
   toDoList.appendChild(li);
 }
 
-function handleCheckBoxChange(event, newToDoObj) {
+function handleCheckBoxChange(event) {
   const todoId = event.target.id
   const todoItem = document.getElementById(todoId);
 
@@ -160,7 +156,7 @@ function handleCheckBoxChange(event, newToDoObj) {
         const userInfo = await getUserInfo(user.uid);
         const userUid = userInfo.uid;
 
-        const path = `scheduler/${userUid}/${dateKey}/todoList/${newToDoObj.todoID}`; 
+        let path = `scheduler/${userUid}/${dateKey}/todoList/${todoId}`; 
         const snapshot = await get(ref(db, path));
         const target = snapshot.val();
     
@@ -168,10 +164,21 @@ function handleCheckBoxChange(event, newToDoObj) {
           target.value = true;
           todoItem.classList.add("completed");
           selectedNum++;
+
+          await set(ref(db, path), {
+            todoText: target.todoText,
+            value: true
+          });
         } else {
           target.value = false;
           todoItem.classList.remove("completed");
+          console.log("unselected!");
           selectedNum--;
+
+          await set(ref(db, path), {
+            todoText: target.todoText,
+            value: false
+          });
         }
   
         await updateSelectedNum(userUid, selectedNum);
@@ -195,5 +202,4 @@ function handleToDoSubmit(event) {
   };
   toDos.push(newToDoObj);
   addToDo(newToDoObj);
-  console.log(newToDo);
 }
