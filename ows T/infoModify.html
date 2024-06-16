@@ -73,8 +73,15 @@
     </style>
 </head>
 <body>
-    
-    <h1>회원정보</h1>
+    <h1>Life Tracker</h1>
+    <ul>
+        <li><a href="scheduler.html">Scheduler</a></li>
+        <li><a href="timer.html">Timer</a></li>
+        <li><a href="song.html">Song</a></li>
+        <li><a href="diary.html">Diary</a></li>
+        <li><a href="myPage.html" id="selected-list">My page</a></li>
+    </ul>
+    <h2>회원정보</h2>
     <form class="form-container">
         <div class="form-group">
             <p>이름:</p>
@@ -89,7 +96,7 @@
             <input type="text" id="account" placeholder="E-mail">
         </div>
         <div class="form-group">
-            <p>비밀번호:</p>
+            <p>새 비밀번호:</p>
             <input type="password" id="pw" placeholder="password">
         </div>
         <div class="form-group">
@@ -101,7 +108,7 @@
             <input type="text" id="ph_num" placeholder="phone">
         </div>
         <div class="signup-container">
-            <input type="button" value="Modify" id="modify-button">
+            <input type="button" value="Submit" id="modify-button">
         </div>
     </form>
     <button type="button" id="back-button">Back</button>
