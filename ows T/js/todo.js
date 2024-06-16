@@ -145,27 +145,31 @@ function addToDo(newToDoObj) {
   toDoList.appendChild(li);
 }
 
-function handleCheckBoxChange(event) {
+function handleCheckBoxChange(event, newToDoObj) {
   const todoId = event.target.id
-
-  // 비동기 함수 내에서 정확히 찾기 위해 DOM을 업데이트하기 전에 직접 찾습니다.
   const todoItem = document.getElementById(todoId);
 
-  if (!todoItem) {
-    console.error('Todo item not found for id:', todoId);
-    return;
-  }
+  // if (!todoItem) {
+  //   console.error('Todo item not found for id:', todoId);
+  //   return;
+  // }
 
   auth.onAuthStateChanged(async (user) => {
     if (user) {
       try {
         const userInfo = await getUserInfo(user.uid);
         const userUid = userInfo.uid;
+
+        const path = `scheduler/${userUid}/${dateKey}/todoList/${newToDoObj.todoID}`; 
+        const snapshot = await get(ref(db, path));
+        const target = snapshot.val();
     
         if (event.target.checked) {
+          target.value = true;
           todoItem.classList.add("completed");
           selectedNum++;
         } else {
+          target.value = false;
           todoItem.classList.remove("completed");
           selectedNum--;
         }
@@ -186,7 +190,8 @@ function handleToDoSubmit(event) {
   toDoInput.value = "";
   const newToDoObj = {
     text: newToDo,
-    todoID: uuidv4()
+    todoID: uuidv4(),
+    value: false
   };
   toDos.push(newToDoObj);
   addToDo(newToDoObj);
