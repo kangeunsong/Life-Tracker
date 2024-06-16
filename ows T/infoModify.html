@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin: 0 auto;
+            max-width: 500px;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .form-group p {
+            width: 150px;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            flex: 1;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .signup-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        #modify-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #cacaca;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #modify-button:hover {
+            background-color: black;
+        }
+
+        #back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #cacaca;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #back-button:hover {
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    
+    <h1>회원정보</h1>
+    <form class="form-container">
+        <div class="form-group">
+            <p>이름:</p>
+            <input type="text" id="name" placeholder="name">
+        </div>
+        <div class="form-group">
+            <p>생년월일:</p>
+            <input type="date" id="birthday" placeholder="birthday">
+        </div>
+        <div class="form-group">
+            <p>이메일:</p>
+            <input type="text" id="account" placeholder="E-mail">
+        </div>
+        <div class="form-group">
+            <p>비밀번호:</p>
+            <input type="password" id="pw" placeholder="password">
+        </div>
+        <div class="form-group">
+            <p>비밀번호 확인:</p>
+            <input type="password" id="pwRE" placeholder="password check">
+        </div>
+        <div class="form-group">
+            <p>전화번호:</p>
+            <input type="text" id="ph_num" placeholder="phone">
+        </div>
+        <div class="signup-container">
+            <input type="button" value="Modify" id="modify-button">
+        </div>
+    </form>
+    <button type="button" id="back-button">Back</button>
+
+    <script>
+        document.getElementById('back-button').addEventListener('click', () => {
+            window.location.href = 'myPage.html';
+        });
+        document.getElementById('modify-button').addEventListener('click', () => {
+            window.location.href = 'myPage.html';
+        });
+    </script>
+</body>
+</html>
