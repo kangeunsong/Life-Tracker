@@ -6,6 +6,8 @@ let month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
 let day = ('0' + currentDate.getDate()).slice(-2);
 let dateKey = `${year}${month}${day}`;
 
+let isLoading = true;
+
 // 할 일 폼, 입력 요소, 할 일 리스트를 DOM에서 가져옵니다.
 const toDoForm = document.querySelector("#todo-form");
 const toDoInput = document.querySelector("#todo-form input");
@@ -39,19 +41,32 @@ auth.onAuthStateChanged(async (user) => {
         // 현재 페이지 로드 시, 할 일 목록 및 화면에 추가
         for (const key in data) {
           if (key !== 'totalNum' && key !== 'selectedNum' && data[key].todoText) {
-            const newToDoObj = {
-              text: data[key].todoText,
-              todoID: key,
-              value: data[key].value
-            };
-            toDos.push(newToDoObj);
-            addToDo(newToDoObj);
+            if(data[key].value == true){
+              const selectvalue = data[key].value;
+
+              const newToDoObj = {
+                text: data[key].todoText,
+                todoID: key,
+                value: selectvalue
+              };
+              toDos.push(newToDoObj);
+              addToDo(newToDoObj);
+            } else{
+              const newToDoObj = {
+                text: data[key].todoText,
+                todoID: key,
+              };
+              toDos.push(newToDoObj);
+              addToDo(newToDoObj);
+            }
           }
         }
       }
     } catch (error) {
       console.error('사용자 정보를 가져오는 중 에러 발생:', error);
-    }
+    } finally {
+      isLoading = false; // 모든 데이터를 불러온 후에 플래그를 비활성화
+    } 
   } else {
     console.log('사용자가 로그인하지 않았습니다.');
   }
@@ -124,8 +139,19 @@ function addToDo(newToDoObj) {
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.id = newToDoObj.todoID;
-  console.log(checkbox.id);
-  checkbox.addEventListener("change", handleCheckBoxChange);
+
+  if (newToDoObj.value === true) {
+    checkbox.checked = true;
+    li.classList.add("completed");
+  } else {
+      checkbox.checked = false;
+  }
+
+  checkbox.addEventListener("change", (event) => {
+    if (!isLoading) {
+        handleCheckBoxChange(event);
+    }
+});
   
   const span = document.createElement("span");
   const btn = document.createElement("button");
