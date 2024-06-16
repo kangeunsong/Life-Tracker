@@ -60,7 +60,7 @@
 
     <div class="container">
         <h1 id="user-greeting">사용자 이름 불러오는 중...</h1>
-        <h2>오늘 완료한 목표 수 <span id="completed-tasks">0</span>/<span id="total-tasks">0</span></h2>
+        <h2 id="completed-tasks">목표 정보 불러오는 중...</h2>
 
         <div class="charts">
             <div class="chart-container">
@@ -74,7 +74,69 @@
 
     <button id="logout">Log out</button>
 
-    <script>
+    <script type="module">
+        import { auth, db, ref, set, get, getUserInfo } from './js/firebase.js';     
+
+        const currentDate = new Date();
+        const currentDayOfWeek = currentDate.getDay(); // 0: 일요일, 1: 월요일, ..., 6: 토요일
+        const currentMonth = currentDate.getMonth(); // 0: 1월, 1: 2월, ..., 11: 12월
+        const currentDay = currentDate.getDate();  
+        
+        let year = currentDate.getFullYear();
+        let month = ('0' + (currentMonth + 1)).slice(-2);
+        let day = ('0' + currentDay).slice(-2);
+        let dateKey = `${year}${month}${day}`;
+
+        let totalTasks;
+        let completedTasks;
+
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                try {
+                    const userInfo = await getUserInfo(user.uid);
+
+                    if (userInfo) {
+                        const userName = userInfo.name;
+                        const userUid = userInfo.uid;
+                        let path = `scheduler/${userUid}/${dateKey}/todoList/totalNum`;
+                        const totalTasksSnapshot = await get(ref(db, path));
+                        totalTasks = totalTasksSnapshot.val();
+                        path = `scheduler/${userUid}/${dateKey}/todoList/selectedNum`;
+                        const completedTasksSnapshot = await get(ref(db, path));
+                        completedTasks = completedTasksSnapshot.val();
+
+                        if(totalTasks != null){
+                            if(completedTasks != null){
+                                if(completedTasks / totalTasks == 1){
+                                    document.getElementById('user-greeting').textContent = `${userName}님 완벽해요!`;
+                                } else if (completedTasks / totalTasks > 0.66) {
+                                    document.getElementById('user-greeting').textContent = `${userName}님 잘하고 있어요!`;
+                                } else if (completedTasks / totalTasks > 0.33) {
+                                    document.getElementById('user-greeting').textContent = `${userName}님 조금 더 힘내볼까요?`;
+                                }
+                                else{
+                                    document.getElementById('user-greeting').textContent = `${userName}님 조금 더 분발하세요!`;
+                                }
+                            } else {
+                                completedTasks = 0;
+                            }
+                            document.getElementById('completed-tasks').textContent = `오늘 완료한 목표 수 ${completedTasks} / ${totalTasks}`;
+                        } else{
+                            document.getElementById('user-greeting').textContent = `${userName}님 안녕하세요!`;
+                            document.getElementById('completed-tasks').textContent = `목표 정보를 불러올 수 없습니다.`;
+                        }
+
+                    } else {
+                    console.error('사용자 정보가 없습니다.');
+                    }
+                } catch (error) {
+                    console.error('사용자 정보를 가져오는 중 에러 발생:', error);
+                }
+            } else {
+                console.log('사용자가 로그인하지 않았습니다.');
+            }
+        });        
+
         const tasks = [
             { date: '2024-05-20', completed: true },
             { date: '2024-05-21', completed: false },
@@ -83,17 +145,18 @@
             { date: '2024-05-22', completed: false }
         ];
 
-        const totalTasks = tasks.length;
-        const completedTasks = tasks.filter(task => task.completed).length;
-
-        document.getElementById('total-tasks').textContent = totalTasks;
-        document.getElementById('completed-tasks').textContent = completedTasks;
-
         const weeklyChartCtx = document.getElementById('weeklyChart').getContext('2d');
         const monthlyChartCtx = document.getElementById('monthlyChart').getContext('2d');
 
         const weeklyData = [1, 2, 8, 4, 7, 9, 2];
         const monthlyData = [3, 2, 5, 7, 8, 6, 5, 4, 6, 7, 8, 9];
+
+        // 색상 설정
+        const weeklyColors = Array(7).fill('rgba(0, 0, 0, 100)');
+        const monthlyColors = Array(12).fill('rgba(0, 0, 0, 0.5)');
+        weeklyColors[currentDayOfWeek] = 'rgba(0, 0, 0, 0)'; 
+        monthlyColors[currentMonth] = 'rgba(0, 0, 0, 10)'; 
+
 
         new Chart(weeklyChartCtx, {
             type: 'line',
@@ -128,8 +191,8 @@
                 datasets: [{
                     label: 'Tasks Completed',
                     data: monthlyData,
-                    backgroundColor: 'black',
-                    borderColor: 'black',
+                    backgroundColor: monthlyColors,
+                    borderColor: monthlyColors,
                     borderWidth: 1
                 }]
             },
@@ -152,34 +215,7 @@
         });
     </script>
 
-    <script type="module" src="js/logout.js"></script>
-    <script type="module">
-        import { auth, getUserInfo } from './js/firebase.js';
-
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                try {
-                    const userInfo = await getUserInfo(user.uid);
-                    if (userInfo) {
-                        const userName = userInfo.name;
-                        if(completedTasks / totalTasks > 0.5){
-                            document.getElementById('user-greeting').textContent = `${userName}님 잘하고 있어요!`;
-                        }
-                        else{
-                            document.getElementById('user-greeting').textContent = `${userName}님 조금 더 분발하세요!`;
-                        }
-                    } else {
-                    console.error('사용자 정보가 없습니다.');
-                    }
-                } catch (error) {
-                    console.error('사용자 정보를 가져오는 중 에러 발생:', error);
-                }
-            } else {
-                console.log('사용자가 로그인하지 않았습니다.');
-            }
-        });
-    </script>
-    
+    <script type="module" src="js/logout.js"></script>   
 </body>
 
 </html>
