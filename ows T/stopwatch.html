@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <title>Life Tracker - Stopwatch</title>
+    <style>
+        #timerTitle {
+            font-size: 45px;
+            padding: 50px 0;
+        }
+
+        #timerSection,
+        #stopwatchSection {
+            display: none;
+            margin-top: 30px;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .timer-image {
+            width: 30%;
+            height: auto;
+        }
+
+        #timerSection input,
+        #stopwatchSection input {
+            font-size: 1.5rem;
+            padding: 10px;
+            margin: 5px;
+            width: 80px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #timerSection p,
+        #stopwatchSection p {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        #timerSection button,
+        #stopwatchSection button {
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        #reset {
+            background-color: rgb(210, 210, 210);
+            color: white;
+        }
+
+        #timerSection button:hover,
+        #stopwatchSection button:hover {
+            color: white;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Life Tracker</h1>
+    <ul>
+        <li><a href="scheduler.html">Scheduler</a></li>
+        <li class="dropdown">
+            <a href="timer.html" id="selected-list">Timer</a>
+            <div class="dropdown-content">
+                <a href="stopwatch.html">Stopwatch</a>
+            </div>
+        </li>
+        <li><a href="song.html">Song</a></li>
+        <li><a href="diary.html">Diary</a></li>
+        <li><a href="myPage.html">My page</a></li>
+    </ul>
+    <img id="start" src="start.png" alt="Timer Image" class="timer-image" />
+    <button id="reset">Reset</button>
+    <p id="timerDisplay">00:00:00</p>
+    <script>
+        let isRunning = false;
+        let timer;
+        let startTime;
+        let elapsedTime = 0;
+        const reset = document.getElementById("reset");
+
+        function updateTime() {
+            const now = Date.now();
+            elapsedTime = now - startTime;
+            const seconds = Math.floor((elapsedTime / 1000) % 60);
+            const minutes = Math.floor((elapsedTime / (1000 * 60)) % 60);
+            const hours = Math.floor((elapsedTime / (1000 * 60 * 60)) % 24);
+
+            document.getElementById('timerDisplay').textContent = 
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            startTime = Date.now() - elapsedTime;
+            timer = setInterval(updateTime, 1000);
+            localStorage.setItem('startTime', startTime);
+            document.getElementById("start").src = "stop.png";
+            isRunning = true;
+        }
+
+        function stopTimer() {
+            clearInterval(timer);
+            localStorage.setItem('elapsedTime', elapsedTime);
+            document.getElementById("start").src = "start.png";
+            isRunning = false;
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            elapsedTime = 0;
+            document.getElementById('timerDisplay').textContent = "00:00:00";
+            document.getElementById("start").src = "start.png";
+            localStorage.removeItem('startTime');
+            localStorage.removeItem('elapsedTime');
+            isRunning = false;
+        }
+
+        document.getElementById('start').addEventListener('click', () => {
+            if (isRunning) {
+                stopTimer();
+            } else {
+                startTimer();
+            }
+        });
+
+        reset.addEventListener("click", resetTimer);
+
+        window.onload = () => {
+            const savedStartTime = localStorage.getItem('startTime');
+            const savedElapsedTime = localStorage.getItem('elapsedTime');
+            if (savedStartTime) {
+                startTime = parseInt(savedStartTime, 10);
+                elapsedTime = Date.now() - startTime;
+                startTimer();
+            } else if (savedElapsedTime) {
+                elapsedTime = parseInt(savedElapsedTime, 10);
+                document.getElementById('timerDisplay').textContent = 
+                    new Date(elapsedTime).toISOString().substr(11, 8);
+            }
+        };
+    </script>
+</body>
+</html>
