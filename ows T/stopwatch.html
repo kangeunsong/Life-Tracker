@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <link rel="stylesheet" href="style.css" />
     <title>Life Tracker - Stopwatch</title>
@@ -9,38 +10,28 @@
             padding: 50px 0;
         }
 
-        #timerSection,
-        #stopwatchSection {
-            display: none;
-            margin-top: 30px;
-            width: 80%;
-            margin: 0 auto;
-        }
-
         .timer-image {
-            width: 30%;
+            width: 20%;
             height: auto;
         }
 
-        #timerSection input,
-        #stopwatchSection input {
+        #timerSection input {
             font-size: 1.5rem;
             padding: 10px;
             margin: 5px;
             width: 80px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        #timerSection p,
-        #stopwatchSection p {
+        #timerSection p {
             font-size: 2rem;
             font-weight: bold;
             margin: 10px 0;
         }
 
-        #timerSection button,
-        #stopwatchSection button {
+        #timerSection button {
             font-size: 1.2rem;
             padding: 10px 20px;
             margin: 5px;
@@ -48,6 +39,17 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #timerSection button:hover {
+            background-color: #555;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        #timerSection button:active {
+            background-color: #333;
         }
 
         #reset {
@@ -55,10 +57,45 @@
             color: white;
         }
 
-        #timerSection button:hover,
-        #stopwatchSection button:hover {
-            color: white;
-            transform: scale(1.05);
+        .highlight {
+            background-color: yellow;
+        }
+
+        @keyframes blink {
+            50% {
+                background-color: red;
+                color: white;
+            }
+        }
+
+        .blink {
+            animation: blink 1s steps(2, start) infinite;
+        }
+
+        .switch-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .switch-button:hover {
+            background-color: #555;
+        }
+
+        .switch-button:active {
+            transform: scale(0.95);
+        }
+
+        #timerSection input {
+            border: 2px solid #333;
+            border-radius: 5px;
+            padding: 5px;
+            margin: 5px;
         }
     </style>
 </head>
@@ -78,8 +115,13 @@
         <li><a href="myPage.html">My page</a></li>
     </ul>
     <img id="start" src="start.png" alt="Timer Image" class="timer-image" />
-    <button id="reset">Reset</button>
-    <p id="timerDisplay">00:00:00</p>
+
+    <div id="timerSection">
+        <h2>Stopwatch</h2>
+        <p id="timerDisplay">00:00:00</p>
+        <button id="reset">Reset</button>
+    </div>
+    
     <script>
         let isRunning = false;
         let timer;
@@ -94,7 +136,7 @@
             const minutes = Math.floor((elapsedTime / (1000 * 60)) % 60);
             const hours = Math.floor((elapsedTime / (1000 * 60 * 60)) % 24);
 
-            document.getElementById('timerDisplay').textContent = 
+            document.getElementById('timerDisplay').textContent =
                 `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }
 
@@ -142,10 +184,11 @@
                 startTimer();
             } else if (savedElapsedTime) {
                 elapsedTime = parseInt(savedElapsedTime, 10);
-                document.getElementById('timerDisplay').textContent = 
+                document.getElementById('timerDisplay').textContent =
                     new Date(elapsedTime).toISOString().substr(11, 8);
             }
         };
     </script>
 </body>
+
 </html>
