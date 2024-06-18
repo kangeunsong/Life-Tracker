@@ -163,23 +163,17 @@
             }
         });        
 
-        const tasks = [
-            { date: '2024-05-20', completed: true },
-            { date: '2024-05-21', completed: false },
-            { date: '2024-05-22', completed: true },
-            { date: '2024-05-22', completed: false },
-            { date: '2024-05-22', completed: false }
-        ];
+
 
         const weeklyChartCtx = document.getElementById('weeklyChart').getContext('2d');
         const monthlyChartCtx = document.getElementById('monthlyChart').getContext('2d');
 
         const weeklyData = [1, 2, 8, 4, 7, 9, 2];
-        const monthlyData = [3, 2, 5, 7, 8, 6, 5, 4, 6, 7, 8, 9];
+        const monthlyData = [3, 2, 5, 7, 8, 6, 5, 4, 6, 9, 8, 1];
 
-        // 색상 설정
+
         const weeklyColors = Array(7).fill('rgba(0, 0, 0, 100)');
-        const monthlyColors = Array(12).fill('rgba(0, 0, 0, 0.5)');
+        const monthlyColors = Array(12).fill('rgba(0, 0, 0, 0.4)');
         weeklyColors[currentDayOfWeek] = 'rgba(0, 0, 0, 0)'; 
         monthlyColors[currentMonth] = 'rgba(0, 0, 0, 10)'; 
 
@@ -192,7 +186,7 @@
                     label: 'Tasks Completed',
                     data: weeklyData,
                     borderColor: 'black',
-                    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.4)',
                     fill: false
                 }]
             },
