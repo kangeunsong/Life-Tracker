@@ -94,6 +94,13 @@
             padding: 5px;
             margin: 5px;
         }
+
+        footer {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+        }
     </style>
 </head>
 
@@ -178,15 +185,15 @@
             }
 
             startImage.addEventListener("click", function () {
-              if(document.getElementById("hours").value == 0 && document.getElementById("minutes").value == 0 && document.getElementById("seconds").value == 0){
-                alert('시간이 입력되지 않았습니다.');
-              }
+                if (document.getElementById("hours").value == 0 && document.getElementById("minutes").value == 0 && document.getElementById("seconds").value == 0) {
+                    alert('시간이 입력되지 않았습니다.');
+                }
 
-              if (timerRunning) {
-                stopTimer();
-              } else {
-                  startTimer();
-              }
+                if (timerRunning) {
+                    stopTimer();
+                } else {
+                    startTimer();
+                }
             });
 
             resetButton.addEventListener("click", resetTimer);
@@ -205,6 +212,12 @@
             document.getElementById("seconds").addEventListener("input", padWithZeroes);
         });
     </script>
+    <br>
+    <br>
+    <br>
+        <footer>
+            <p >&copy; 2024 Life Tracker. All rights reserved.</p>
+        </footer>
 </body>
 
 </html>
