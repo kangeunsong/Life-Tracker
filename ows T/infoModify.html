@@ -88,10 +88,6 @@
             <input type="text" id="name" placeholder="name">
         </div>
         <div class="form-group">
-            <p>생년월일:</p>
-            <input type="date" id="birthday" placeholder="birthday">
-        </div>
-        <div class="form-group">
             <p>이메일:</p>
             <input type="text" id="account" placeholder="E-mail">
         </div>
@@ -104,6 +100,10 @@
             <input type="password" id="pwRE" placeholder="password check">
         </div>
         <div class="form-group">
+            <p>생년월일:</p>
+            <input type="date" id="birthday" placeholder="birthday">
+        </div>
+        <div class="form-group">
             <p>전화번호:</p>
             <input type="text" id="ph_num" placeholder="phone">
         </div>
@@ -114,13 +114,28 @@
         </div>
     </form>
 
-    <script>
-        document.getElementById('back-button').addEventListener('click', () => {
-            window.location.href = 'myPage.html';
-        });
-        document.getElementById('modify-button').addEventListener('click', () => {
-            window.location.href = 'myPage.html';
-        });
+    <script type="module">
+        import { auth, db, ref, set, get, getUserInfo } from './js/firebase.js';     
+
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                try {
+                    const userInfo = await getUserInfo(user.uid);
+
+                    if (userInfo) {
+                        document.getElementById('name').value = userInfo.name;
+                        document.getElementById('account').value = userInfo.email;
+                        document.getElementById('birthday').value = userInfo.birthday;
+                        document.getElementById('ph_num').value = userInfo.phone;
+                    }
+                } catch (error) {
+                    console.error('사용자 정보를 가져오는 중 에러 발생:', error);
+                }
+            } else {
+                console.log('사용자가 로그인하지 않았습니다.');
+            }
+        });        
     </script>
+    <script type="module" src="js/infomodify.js"></script>
 </body>
 </html>
