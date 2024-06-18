@@ -19,6 +19,7 @@ let selectedNum = 0;
 
 // Firebase에서 할 일 목록을 가져와 화면에 추가합니다.
 auth.onAuthStateChanged(async (user) => {
+  selectedNum = 0;
   if (user) {
     try {
       const userInfo = await getUserInfo(user.uid);
@@ -28,12 +29,12 @@ auth.onAuthStateChanged(async (user) => {
 
       if (snapshot.exists()) {
         const data = snapshot.val();
-        selectedNum = data.selectedNum || 0;
+        await set(ref(db, path), {
+          selectedNum: 0
+        }); 
 
         if(data.selectedNum == null){
-          await set(ref(db, path), {
-            selectedNum: 0
-          });
+          
         } else {
           selectedNum = data.selectedNum;
         }
@@ -47,7 +48,7 @@ auth.onAuthStateChanged(async (user) => {
               const newToDoObj = {
                 text: data[key].todoText,
                 todoID: key,
-                value: selectvalue
+                value: true
               };
               toDos.push(newToDoObj);
               addToDo(newToDoObj);
@@ -135,7 +136,7 @@ function deleteToDo(event, newToDoObj) {
 function addToDo(newToDoObj) {
   const li = document.createElement("li");
   li.id = newToDoObj.todoID;
-  
+
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.id = newToDoObj.todoID;
@@ -143,19 +144,60 @@ function addToDo(newToDoObj) {
   if (newToDoObj.value === true) {
     checkbox.checked = true;
     li.classList.add("completed");
+
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        try {
+          const userInfo = await getUserInfo(user.uid);
+          const userUid = userInfo.uid;
+  
+          const path = `scheduler/${userUid}/${dateKey}/todoList/${newToDoObj.todoID}`;
+          await set(ref(db, path), {
+            todoText: newToDoObj.text,
+            value: true
+          });
+        } catch (error) {
+          console.error('사용자 정보를 가져오는 중 에러 발생:', error);
+        }
+      } else {
+        console.log('사용자가 로그인하지 않았습니다.');
+      }
+    });
   } else {
-      checkbox.checked = false;
+    console.log("here4");
+    checkbox.checked = false;
+    li.classList.remove("completed");
+
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        try {
+          const userInfo = await getUserInfo(user.uid);
+          const userUid = userInfo.uid;
+  
+          const path = `scheduler/${userUid}/${dateKey}/todoList/${newToDoObj.todoID}`;
+          await set(ref(db, path), {
+            todoText: newToDoObj.text,
+            value: null
+          });
+        } catch (error) {
+          console.error('사용자 정보를 가져오는 중 에러 발생:', error);
+        }
+      } else {
+        console.log('사용자가 로그인하지 않았습니다.');
+      }
+    });
   }
 
   checkbox.addEventListener("change", (event) => {
     if (!isLoading) {
         handleCheckBoxChange(event);
     }
-});
+  });
   
   const span = document.createElement("span");
-  const btn = document.createElement("button");
   span.innerText = newToDoObj.text;
+
+  const btn = document.createElement("button");
   btn.innerText = "Delete";
   btn.addEventListener("click", (event) => deleteToDo(event, newToDoObj));
 
@@ -203,7 +245,7 @@ function handleCheckBoxChange(event) {
 
           await set(ref(db, path), {
             todoText: target.todoText,
-            value: false
+            value: null
           });
         }
   
