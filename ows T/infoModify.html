@@ -26,14 +26,18 @@
             width: 200px;
             margin: 0;
             font-weight: bold;
+            text-align: right;
         }
 
         .form-group input {
             flex: 1;
             padding: 10px;
             font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.05);
+            border-radius: 7px;
+            height: 30px;
+            margin-left: 20px;
         }
 
         .signup-container {
@@ -86,7 +90,7 @@
         <div class="form-group">
             <p>이름:</p>
             <input type="text" id="name" placeholder="name">
-        </div>
+        </div> <br>
         <div class="form-group">
             <p>이메일:</p>
             <input type="text" id="account" placeholder="E-mail" readonly>
@@ -96,9 +100,9 @@
             <input type="password" id="pw" placeholder="password">
         </div>
         <div class="form-group">
-            <p>비밀번호 확인:</p>
+            <p>새 비밀번호 확인:</p>
             <input type="password" id="pwRE" placeholder="password check">
-        </div>
+        </div> <br>
         <div class="form-group">
             <p>생년월일:</p>
             <input type="date" id="birthday" placeholder="birthday">
