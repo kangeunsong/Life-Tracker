@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css" />
+    <title>Life Tracker - Scheduler</title>
+    <style>
+        #mainTable {
+            border-collapse: collapse;
+            margin-top: 70px;
+            margin-left: 35%;
+        }
+
+        #select-color {
+            display: flex;
+            justify-content: center;
+            margin-top: 18px;
+        }
+
+        #colorTable {
+            border-collapse: collapse;
+        }
+
+        /* 선택된 셀은 그림자를 더 강하게 */
+        .selected {
+            box-shadow: 0 0 10px 10px rgba(0, 0, 0, 0.25) !important;
+        }
+
+        #colorTable td div {
+            width: 40px;
+            height: 40px;
+            border-radius: 100%;
+            border: 6px solid white;
+            margin: 15px;
+            box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: inherit;
+            transition: box-shadow 0.3s ease;
+        }
+
+        #colorTable td {
+            border: none;
+        }
+
+        #colorTable td div:hover {
+            box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .bottom {
+            display: flex;
+            justify-content: space-between;
+            /* 요소들을 가로로 고르게 정렬 */
+        }
+
+        #time-table {
+            width: 30%;
+            float: left;
+            margin-left: 20%;
+        }
+
+        #todo {
+            width: 30%;
+            float: right;
+            margin-right: 20%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* 수평 중앙 정렬 */
+        }
+
+        .time {
+            font-size: 15px;
+            width: 45px;
+            height: 30px;
+            background-color: white !important;
+            text-align: center;
+            cursor: pointer;
+            vertical-align: middle;
+            padding: 0;
+            border-left: none !important;
+            border-right: 1px solid rgba(0, 0, 0, 0.2) !important;
+            border-top: none !important;
+            border-bottom: none !important;
+        }
+
+        .blank {
+            width: 45px;
+            height: 30px;
+            background-color: white;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            text-align: center;
+            cursor: pointer;
+            vertical-align: middle;
+            padding: 0;
+        }
+
+        #date-output {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        form>div input[type="text"] {
+            font-size: 16px;
+            padding: 8px 10px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+        }
+
+        form>div input[type="text"]:disabled {
+            background-color: #f9f9f9;
+            border-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        form#todo-form {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        form#todo-form>input[type="text"],
+        form#todo-form>button {
+            margin-right: 10px;
+            padding: 10px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+
+        form#todo-form>input[type="text"] {
+            background-color: #fff;
+            color: #333;
+            width: 200px;
+            text-align: left; /* 텍스트 왼쪽 정렬 */
+            padding-left: 10px; /* 왼쪽에 간격 추가 */
+        }
+
+        form#todo-form>button {
+            background-color: #cacaca;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        form#todo-form>button:hover {
+            background-color: #353535;
+        }
+
+        ul#todo-list {
+            list-style: none;
+            margin: 0;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        ul#todo-list>li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            font-size: 18px;
+            color: #333;
+            transition: 0.3s;
+        }
+
+        ul#todo-list>li>span {
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+
+        ul#todo-list>li>button {
+            padding: 5px 10px;
+            background-color: #cacaca;
+            border: none;
+            border-radius: 3px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 23px;
+        }
+
+        ul#todo-list>li>button:hover {
+            background-color: #c74b4b;
+        }
+
+        .completed {
+            background-color: #f2f2f2;
+        }
+
+        #date-navigation {
+            font-size: 25px;
+            display: flex;
+            justify-content: center; /* 중앙 정렬로 변경 */
+            align-items: center;
+        }
+
+        #date-navigation button {
+            background-color: #eeeeeede;
+            border: 1px solid #ffffff;
+            padding: 5px 10px;
+            margin: 0 10px; /* 양쪽에 간격 추가 */
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #date-navigation button:hover {
+            background-color: #c2c2c2de;
+        }
+
+        #date-output {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0 20px; /* 양쪽에 간격 추가 */
+        } 
+
+        footer {
+            margin-top: 50px;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Life Tracker</h1>
+    <ul>
+        <li><a href="scheduler.html" id="selected-list">Scheduler</a></li>
+        <li class="dropdown">
+            <a href="timer.html">Timer</a>
+            <div class="dropdown-content">
+                <a href="stopwatch.html">Stopwatch</a>
+            </div>
+        </li>
+        <li><a href="song.html">Song</a></li>
+        <li><a href="diary.html">Diary</a></li>
+        <li><a href="myPage.html">My page</a></li>
+    </ul>
+
+    <br /><br /><br />
+
+    <div id="select-color">
+        <table border="0" id="colorTable">
+            <tr>
+                <td id="rgb(240, 240, 240)">
+                    <div style="background-color: rgb(240, 240, 240)"></div>
+                </td>
+                <td id="rgb(210, 210, 210)">
+                    <div style="background-color: rgb(210, 210, 210)"></div>
+                </td>
+                <td id="rgb(180, 180, 180)">
+                    <div style="background-color: rgb(180, 180, 180)"></div>
+                </td>
+                <td id="rgb(150, 150, 150)">
+                    <div style="background-color: rgb(150, 150, 150)"></div>
+                </td>
+                <td id="rgb(120, 120, 120)">
+                    <div style="background-color: rgb(120, 120, 120)"></div>
+                </td>
+                <td id="rgb(90, 90, 90)">
+                    <div style="background-color: rgb(90, 90, 90)"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <br />
+    <div class="bottom">
+        <div id="time-table">
+            <table border="0" id="mainTable">
+                <tr>
+                    <td id="time1" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">04</span>
+                    </td>
+                    <td id="blank1-1" class="blank"></td>
+                    <td id="blank1-2" class="blank"></td>
+                    <td id="blank1-3" class="blank"></td>
+                    <td id="blank1-4" class="blank"></td>
+                    <td id="blank1-5" class="blank"></td>
+                    <td id="blank1-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time2" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">05</span>
+                    </td>
+                    <td id="blank2-1" class="blank"></td>
+                    <td id="blank2-2" class="blank"></td>
+                    <td id="blank2-3" class="blank"></td>
+                    <td id="blank2-4" class="blank"></td>
+                    <td id="blank2-5" class="blank"></td>
+                    <td id="blank2-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time3" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">06</span>
+                    </td>
+                    <td id="blank3-1" class="blank"></td>
+                    <td id="blank3-2" class="blank"></td>
+                    <td id="blank3-3" class="blank"></td>
+                    <td id="blank3-4" class="blank"></td>
+                    <td id="blank3-5" class="blank"></td>
+                    <td id="blank3-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time4" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">07</span>
+                    </td>
+                    <td id="blank4-1" class="blank"></td>
+                    <td id="blank4-2" class="blank"></td>
+                    <td id="blank4-3" class="blank"></td>
+                    <td id="blank4-4" class="blank"></td>
+                    <td id="blank4-5" class="blank"></td>
+                    <td id="blank4-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time5" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">08</span>
+                    </td>
+                    <td id="blank5-1" class="blank"></td>
+                    <td id="blank5-2" class="blank"></td>
+                    <td id="blank5-3" class="blank"></td>
+                    <td id="blank5-4" class="blank"></td>
+                    <td id="blank5-5" class="blank"></td>
+                    <td id="blank5-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time6" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">09</span>
+                    </td>
+                    <td id="blank6-1" class="blank"></td>
+                    <td id="blank6-2" class="blank"></td>
+                    <td id="blank6-3" class="blank"></td>
+                    <td id="blank6-4" class="blank"></td>
+                    <td id="blank6-5" class="blank"></td>
+                    <td id="blank6-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time7" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">10</span>
+                    </td>
+                    <td id="blank7-1" class="blank"></td>
+                    <td id="blank7-2" class="blank"></td>
+                    <td id="blank7-3" class="blank"></td>
+                    <td id="blank7-4" class="blank"></td>
+                    <td id="blank7-5" class="blank"></td>
+                    <td id="blank7-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time8" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">11</span>
+                    </td>
+                    <td id="blank8-1" class="blank"></td>
+                    <td id="blank8-2" class="blank"></td>
+                    <td id="blank8-3" class="blank"></td>
+                    <td id="blank8-4" class="blank"></td>
+                    <td id="blank8-5" class="blank"></td>
+                    <td id="blank8-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time9" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">12</span>
+                    </td>
+                    <td id="blank9-1" class="blank"></td>
+                    <td id="blank9-2" class="blank"></td>
+                    <td id="blank9-3" class="blank"></td>
+                    <td id="blank9-4" class="blank"></td>
+                    <td id="blank9-5" class="blank"></td>
+                    <td id="blank9-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time10" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">13</span>
+                    </td>
+                    <td id="blank10-1" class="blank"></td>
+                    <td id="blank10-2" class="blank"></td>
+                    <td id="blank10-3" class="blank"></td>
+                    <td id="blank10-4" class="blank"></td>
+                    <td id="blank10-5" class="blank"></td>
+                    <td id="blank10-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time11" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">14</span>
+                    </td>
+                    <td id="blank11-1" class="blank"></td>
+                    <td id="blank11-2" class="blank"></td>
+                    <td id="blank11-3" class="blank"></td>
+                    <td id="blank11-4" class="blank"></td>
+                    <td id="blank11-5" class="blank"></td>
+                    <td id="blank11-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time12" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">15</span>
+                    </td>
+                    <td id="blank12-1" class="blank"></td>
+                    <td id="blank12-2" class="blank"></td>
+                    <td id="blank12-3" class="blank"></td>
+                    <td id="blank12-4" class="blank"></td>
+                    <td id="blank12-5" class="blank"></td>
+                    <td id="blank12-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time13" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">16</span>
+                    </td>
+                    <td id="blank13-1" class="blank"></td>
+                    <td id="blank13-2" class="blank"></td>
+                    <td id="blank13-3" class="blank"></td>
+                    <td id="blank13-4" class="blank"></td>
+                    <td id="blank13-5" class="blank"></td>
+                    <td id="blank13-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time14" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">17</span>
+                    </td>
+                    <td id="blank14-1" class="blank"></td>
+                    <td id="blank14-2" class="blank"></td>
+                    <td id="blank14-3" class="blank"></td>
+                    <td id="blank14-4" class="blank"></td>
+                    <td id="blank14-5" class="blank"></td>
+                    <td id="blank14-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time15" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">18</span>
+                    </td>
+                    <td id="blank15-1" class="blank"></td>
+                    <td id="blank15-2" class="blank"></td>
+                    <td id="blank15-3" class="blank"></td>
+                    <td id="blank15-4" class="blank"></td>
+                    <td id="blank15-5" class="blank"></td>
+                    <td id="blank15-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time16" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.7)">19</span>
+                    </td>
+                    <td id="blank16-1" class="blank"></td>
+                    <td id="blank16-2" class="blank"></td>
+                    <td id="blank16-3" class="blank"></td>
+                    <td id="blank16-4" class="blank"></td>
+                    <td id="blank16-5" class="blank"></td>
+                    <td id="blank16-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time17" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">20</span>
+                    </td>
+                    <td id="blank17-1" class="blank"></td>
+                    <td id="blank17-2" class="blank"></td>
+                    <td id="blank17-3" class="blank"></td>
+                    <td id="blank17-4" class="blank"></td>
+                    <td id="blank17-5" class="blank"></td>
+                    <td id="blank17-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time18" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">21</span>
+                    </td>
+                    <td id="blank18-1" class="blank"></td>
+                    <td id="blank18-2" class="blank"></td>
+                    <td id="blank18-3" class="blank"></td>
+                    <td id="blank18-4" class="blank"></td>
+                    <td id="blank18-5" class="blank"></td>
+                    <td id="blank18-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time19" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">22</span>
+                    </td>
+                    <td id="blank19-1" class="blank"></td>
+                    <td id="blank19-2" class="blank"></td>
+                    <td id="blank19-3" class="blank"></td>
+                    <td id="blank19-4" class="blank"></td>
+                    <td id="blank19-5" class="blank"></td>
+                    <td id="blank19-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time20" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">23</span>
+                    </td>
+                    <td id="blank20-1" class="blank"></td>
+                    <td id="blank20-2" class="blank"></td>
+                    <td id="blank20-3" class="blank"></td>
+                    <td id="blank20-4" class="blank"></td>
+                    <td id="blank20-5" class="blank"></td>
+                    <td id="blank20-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time21" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">24</span>
+                    </td>
+                    <td id="blank21-1" class="blank"></td>
+                    <td id="blank21-2" class="blank"></td>
+                    <td id="blank21-3" class="blank"></td>
+                    <td id="blank21-4" class="blank"></td>
+                    <td id="blank21-5" class="blank"></td>
+                    <td id="blank21-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time22" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">01</span>
+                    </td>
+                    <td id="blank22-1" class="blank"></td>
+                    <td id="blank22-2" class="blank"></td>
+                    <td id="blank22-3" class="blank"></td>
+                    <td id="blank22-4" class="blank"></td>
+                    <td id="blank22-5" class="blank"></td>
+                    <td id="blank22-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time23" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">02</span>
+                    </td>
+                    <td id="blank23-1" class="blank"></td>
+                    <td id="blank23-2" class="blank"></td>
+                    <td id="blank23-3" class="blank"></td>
+                    <td id="blank23-4" class="blank"></td>
+                    <td id="blank23-5" class="blank"></td>
+                    <td id="blank23-6" class="blank"></td>
+                </tr>
+                <tr>
+                    <td id="time24" class="time">
+                        <span style="color: rgba(0, 0, 0, 0.6)">03</span>
+                    </td>
+                    <td id="blank24-1" class="blank"></td>
+                    <td id="blank24-2" class="blank"></td>
+                    <td id="blank24-3" class="blank"></td>
+                    <td id="blank24-4" class="blank"></td>
+                    <td id="blank24-5" class="blank"></td>
+                    <td id="blank24-6" class="blank"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="todo">
+            <br/><br/><br/>
+            <div id="date-navigation">
+                <button id="prevDay">&lt;</button>
+                <p id="date-output"></p>
+                <button id="nextDay">&gt;</button>
+            </div>
+            <br /><br/><br/><br/><br/>
+            <form id="todo-form">
+                <input type="text" placeholder="What to do?" id="todo-input" />
+                <button type="submit" id="todo-add">Add</button>
+            </form>
+            <ul id="todo-list"></ul>        
+
+            <script>
+                const currentDate = new Date();
+                const year = currentDate.getFullYear();
+                const month = currentDate.getMonth() + 1;
+                const day = currentDate.getDate();
+                const dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"][
+                    currentDate.getDay()
+                ];
+                const dateOfToday =
+                    year + "년 " + month + "월 " + day + "일 " + dayOfWeek + "요일";
+                document.getElementById("date-output").textContent = dateOfToday;
+            </script>
+        </div>
+
+        <script src="js/timetable.js" type="module"></script>
+        <script src="js/todo.js" type="module"></script>
+    </div>
+    <br>
+    <br>
+    <br>
+    <footer>
+        <p>&copy; 2024 Life Tracker. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
