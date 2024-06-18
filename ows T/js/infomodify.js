@@ -10,13 +10,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     modifyButton.addEventListener('click', function () {
         const name = document.getElementById('name').value;
-        const account = document.getElementById('account').value;
         const pw = document.getElementById('pw').value;
         const pwRE = document.getElementById('pwRE').value;
         const birthday = document.getElementById('birthday').value;
         const ph_num = document.getElementById('ph_num').value;
 
-        if (name === '' || account === '' || pw === '' || pwRE === '' || birthday === '' || ph_num === '') {
+        if (name === '' || pw === '' || pwRE === '' || birthday === '' || ph_num === '') {
             alert('모든 정보를 입력해주세요.');
             return;
         }
