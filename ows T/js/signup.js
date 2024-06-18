@@ -40,7 +40,7 @@ async function registerUser(email, password, passwordDB, name, birthday, phone) 
         });
 
         alert('회원가입이 성공하였습니다.');
-        window.location.href = "startPage.html";
+        window.location.href = "index.html";
     } catch (error) {
         console.error('Error during registration:', error);
         switch (error.code) {

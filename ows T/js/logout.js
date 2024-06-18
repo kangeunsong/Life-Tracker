@@ -4,7 +4,7 @@ function logout() {
     auth.signOut()
         .then(() => {
             alert('로그아웃 되었습니다.');
-            window.location.href = "startPage.html";
+            window.location.href = "index.html";
         })
         .catch((error) => {
             console.error('로그아웃 실패:', error);
