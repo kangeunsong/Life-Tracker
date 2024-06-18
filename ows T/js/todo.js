@@ -28,35 +28,7 @@ function countSelectedTodos() {
 auth.onAuthStateChanged(async (user) => {
   if (user) {
     try {
-      const userInfo = await getUserInfo(user.uid);
-      const userUid = userInfo.uid;
-      let path = `scheduler/${userUid}/${dateKey}/todoList`;
-      const snapshot = await get(ref(db, path));
-
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        
-        // 데이터를 불러온 후 selectedNum과 totalNum 값을 설정합니다.
-        selectedNum = data.selectedNum || 0;
-        totalNum = data.totalNum || 0;
-
-        // 현재 페이지 로드 시, 할 일 목록 및 화면에 추가
-        for (const key in data) {
-          if (key !== 'totalNum' && key !== 'selectedNum' && data[key].todoText) {
-            const newToDoObj = {
-              text: data[key].todoText,
-              todoID: key,
-              value: data[key].value || false
-            };
-            toDos.push(newToDoObj);
-            addToDo(newToDoObj);
-          }
-        }
-
-        selectedNum = countSelectedTodos();
-        await set(ref(db, `${path}/selectedNum`), selectedNum);
-      }
-
+      await loadToDos(user);
     } catch (error) {
       console.error('사용자 정보를 가져오는 중 에러 발생:', error);
     } finally {
@@ -66,6 +38,40 @@ auth.onAuthStateChanged(async (user) => {
     console.log('사용자가 로그인하지 않았습니다.');
   }
 });
+
+async function loadToDos(user) {
+  const userInfo = await getUserInfo(user.uid);
+  const userUid = userInfo.uid;
+  let path = `scheduler/${userUid}/${dateKey}/todoList`;
+  const snapshot = await get(ref(db, path));
+
+  toDos = [];
+  toDoList.innerHTML = ''; // 기존 할 일 목록 초기화
+
+  if (snapshot.exists()) {
+    const data = snapshot.val();
+    
+    // 데이터를 불러온 후 selectedNum과 totalNum 값을 설정합니다.
+    selectedNum = data.selectedNum || 0;
+    totalNum = data.totalNum || 0;
+
+    // 현재 페이지 로드 시, 할 일 목록 및 화면에 추가
+    for (const key in data) {
+      if (key !== 'totalNum' && key !== 'selectedNum' && data[key].todoText) {
+        const newToDoObj = {
+          text: data[key].todoText,
+          todoID: key,
+          value: data[key].value || false
+        };
+        toDos.push(newToDoObj);
+        addToDo(newToDoObj);
+      }
+    }
+
+    selectedNum = countSelectedTodos();
+    await set(ref(db, `${path}/selectedNum`), selectedNum);
+  }
+}
 
 // 할 일 폼이 제출되면 handleToDoSubmit 함수를 호출합니다.
 toDoForm.addEventListener("submit", handleToDoSubmit);
@@ -221,6 +227,10 @@ function handleCheckBoxChange(event) {
 function handleToDoSubmit(event) {
   event.preventDefault();
   const newToDo = toDoInput.value;
+  if(newToDo == ""){
+    alert("할일을 입력해주세요!");
+    return;
+  }
   toDoInput.value = "";
   const newToDoObj = {
     text: newToDo,
@@ -230,3 +240,59 @@ function handleToDoSubmit(event) {
   toDos.push(newToDoObj);
   addToDo(newToDoObj);
 }
+
+// 날짜 변경 관련 함수
+function updateDateOutput() {
+  const dateOutput = document.getElementById('date-output');
+  const year = currentDate.getFullYear();
+  const month = currentDate.getMonth() + 1;
+  const day = currentDate.getDate();
+  const dayOfWeek = ["일", "월", "화", "수", "목", "금", "토"][currentDate.getDay()];
+  const dateOfToday = `${year}년 ${month}월 ${day}일 ${dayOfWeek}요일`;
+  dateOutput.textContent = dateOfToday;
+  dateKey = `${year}${('0' + (month)).slice(-2)}${('0' + day).slice(-2)}`;
+}
+
+// 이전 날짜로 변경
+document.getElementById('prevDay').addEventListener('click', function() {
+  currentDate.setDate(currentDate.getDate() - 1);
+  updateDateOutput();
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      try {
+        await loadToDos(user);
+      } catch (error) {
+        console.error('할 일을 불러오는 중 에러 발생:', error);
+      }
+    }
+  });
+});
+
+// 다음 날짜로 변경
+document.getElementById('nextDay').addEventListener('click', function() {
+  currentDate.setDate(currentDate.getDate() + 1);
+  updateDateOutput();
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      try {
+        await loadToDos(user);
+      } catch (error) {
+        console.error('할 일을 불러오는 중 에러 발생:', error);
+      }
+    }
+  });
+});
+
+// 페이지가 로드될 때 할 일 목록 로드 및 날짜 표시 업데이트
+document.addEventListener('DOMContentLoaded', function() {
+  updateDateOutput();
+  auth.onAuthStateChanged(async (user) => {
+    if (user) {
+      try {
+        await loadToDos(user);
+      } catch (error) {
+        console.error('할 일을 불러오는 중 에러 발생:', error);
+      }
+    }
+  });
+});

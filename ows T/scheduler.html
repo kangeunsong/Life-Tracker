@@ -11,9 +11,14 @@
             margin-left: 35%;
         }
 
+        #select-color {
+            display: flex;
+            justify-content: center;
+            margin-top: 18px;
+        }
+
         #colorTable {
             border-collapse: collapse;
-            margin-left: 40.1%;
         }
 
         /* 선택된 셀은 그림자를 더 강하게 */
@@ -43,7 +48,6 @@
             box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.2);
         }
 
-        #select-color,
         .bottom {
             display: flex;
             justify-content: space-between;
@@ -512,7 +516,9 @@
         </div>
 
         <div id="todo">
+            <button id="prevDay">&lt;</button>
             <p id="date-output"></p>
+            <button id="nextDay">&gt;</button>
             <br /><br />
             <form id="todo-form">
                 <input type="text" placeholder="What to do?" id="todo-input" />
