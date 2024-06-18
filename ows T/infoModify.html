@@ -23,7 +23,7 @@
         }
 
         .form-group p {
-            width: 150px;
+            width: 200px;
             margin: 0;
             font-weight: bold;
         }
@@ -43,7 +43,8 @@
             margin-top: 20px;
         }
 
-        #modify-button {
+        #modify-button, #back-button {
+            flex-direction: row;
             padding: 10px 20px;
             font-size: 16px;
             background-color: #cacaca;
@@ -52,23 +53,16 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         #modify-button:hover {
             background-color: black;
         }
 
-        #back-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background-color: #cacaca;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        #back-button:hover {
-            background-color: black;
+        .bottom {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            gap: 10px;
         }
     </style>
 </head>
@@ -87,15 +81,16 @@
         <li><a href="myPage.html" id="selected-list">My page</a></li>
     </ul>
     <h2>회원정보</h2>
+    <br><br><br>
     <form class="form-container">
         <div class="form-group">
             <p>이름:</p>
             <input type="text" id="name" placeholder="name">
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <p>생년월일:</p>
             <input type="date" id="birthday" placeholder="birthday">
-        </div>
+        </div> -->
         <div class="form-group">
             <p>이메일:</p>
             <input type="text" id="account" placeholder="E-mail">
@@ -112,11 +107,12 @@
             <p>전화번호:</p>
             <input type="text" id="ph_num" placeholder="phone">
         </div>
-        <div class="signup-container">
+        <br><br><br><br><br>
+        <div class="bottom">
             <input type="button" value="Submit" id="modify-button">
+            <button type="button" id="back-button">Back</button>    
         </div>
     </form>
-    <button type="button" id="back-button">Back</button>
 
     <script>
         document.getElementById('back-button').addEventListener('click', () => {
