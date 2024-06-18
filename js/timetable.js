@@ -130,6 +130,10 @@ async function loadTimeTable() {
                 const path = `scheduler/${userUid}/${dateKey}/timeTable`;
                 const snapshot = await get(ref(db, path));
 
+                document.querySelectorAll('#mainTable td').forEach(cell => {
+                    cell.style.backgroundColor = 'white';
+                });
+
                 if (snapshot.exists()) {
                     const timeTableData = snapshot.val();
                     Object.keys(timeTableData).forEach(index => {
