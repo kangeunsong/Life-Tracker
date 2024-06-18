@@ -178,11 +178,15 @@
             }
 
             startImage.addEventListener("click", function () {
-                if (timerRunning) {
-                    stopTimer();
-                } else {
-                    startTimer();
-                }
+              if(document.getElementById("hours").value == 0 && document.getElementById("minutes").value == 0 && document.getElementById("seconds").value == 0){
+                alert('시간이 입력되지 않았습니다.');
+              }
+
+              if (timerRunning) {
+                stopTimer();
+              } else {
+                  startTimer();
+              }
             });
 
             resetButton.addEventListener("click", resetTimer);
