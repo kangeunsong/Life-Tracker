@@ -120,33 +120,29 @@
         let day = ('0' + currentDay).slice(-2);
         let dateKey = `${year}${month}${day}`;
 
-        let totalTasks;
-        let completedTasks;
-
         async function fetchWeeklyData(userUid) {
-            const weeklyData = [];
-            for (let i = 0; i < 7; i++) {
-                const date = new Date(currentDate);
-                date.setDate(date.getDate() - (currentDayOfWeek - i));
-                const year = date.getFullYear();
-                const month = ('0' + (date.getMonth() + 1)).slice(-2);
-                const day = ('0' + date.getDate()).slice(-2);
-                const dateKey = `${year}${month}${day}`;
+        const weeklyData = [];
+        for (let i = 0; i < 7; i++) {
+            const date = new Date(currentDate);
+            date.setDate(date.getDate() - (currentDayOfWeek - i));
+            const year = date.getFullYear();
+            const month = ('0' + (date.getMonth() + 1)).slice(-2);
+            const day = ('0' + date.getDate()).slice(-2);
+            const dateKey = `${year}${month}${day}`;
 
-                const totalTasksPath = `scheduler/${userUid}/${dateKey}/todoList/totalNum`;
-                const completedTasksPath = `scheduler/${userUid}/${dateKey}/todoList/selectedNum`;
+            const completionRatePath = `statistics/${userUid}/${dateKey}/rate`;
+            const completionnumPath = `statistics/${userUid}/${dateKey}/number`;
 
-                const totalTasksSnapshot = await get(ref(db, totalTasksPath));
-                const completedTasksSnapshot = await get(ref(db, completedTasksPath));
+            const completionRateSnapshot = await get(ref(db, completionRatePath));
+            const completionnumSnapshot = await get(ref(db, completionnumPath));
 
-                const totalTasks = totalTasksSnapshot.val() || 0;
-                const completedTasks = completedTasksSnapshot.val() || 0;
+            const completionRate = completionRateSnapshot.val() || 0;
+            const completionNum = completionnumSnapshot.val() || 0;
 
-                const completionRate = totalTasks ? (completedTasks / totalTasks) * 100 : 0;
-                weeklyData.push(completionRate);
-            }
-            return weeklyData;
+            weeklyData.push(completionRate * 100);
         }
+        return weeklyData;
+    }
 
         auth.onAuthStateChanged(async (user) => {
             if (user) {
@@ -158,10 +154,10 @@
                         const userUid = userInfo.uid;
                         let path = `scheduler/${userUid}/${dateKey}/todoList/totalNum`;
                         const totalTasksSnapshot = await get(ref(db, path));
-                        totalTasks = totalTasksSnapshot.val();
+                        const totalTasks = totalTasksSnapshot.val();
                         path = `scheduler/${userUid}/${dateKey}/todoList/selectedNum`;
                         const completedTasksSnapshot = await get(ref(db, path));
-                        completedTasks = completedTasksSnapshot.val();
+                        const completedTasks = completedTasksSnapshot.val();
 
                         if(totalTasks != null){
                             if(completedTasks != null){

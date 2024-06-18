@@ -77,12 +77,19 @@ async function loadToDos(user) {
 toDoForm.addEventListener("submit", handleToDoSubmit);
 
 async function updateTotalNum(userUid) {
-  const path = `scheduler/${userUid}/${dateKey}/todoList/totalNum`;
+  let path = `scheduler/${userUid}/${dateKey}/todoList/totalNum`;
   await set(ref(db, path), toDos.length);
+
+  
+  path = `statistics/${userUid}/${dateKey}/rate`;
+  await set(ref(db, path), selectedNum/toDos.length);
+
+  path = `statistics/${userUid}/${dateKey}/number`;
+  await set(ref(db, path), selectedNum);
 }
 
 async function updateSelectedNum(userUid, newSelectedNum) {
-  const path = `scheduler/${userUid}/${dateKey}/todoList/selectedNum`;
+  let path = `scheduler/${userUid}/${dateKey}/todoList/selectedNum`;
   await set(ref(db, path), newSelectedNum);
 }
 
@@ -128,6 +135,7 @@ function deleteToDo(event, newToDoObj) {
         if (target && target.value) {
           selectedNum--;
           await updateSelectedNum(userUid, selectedNum);
+          await updateTotalNum(userUid);
         }
 
         await set(ref(db, path), null);
@@ -215,6 +223,7 @@ function handleCheckBoxChange(event) {
         }
 
         await updateSelectedNum(userUid, selectedNum);
+        await updateTotalNum(userUid);
       } catch (error) {
         console.error('체크 상태 업데이트 중 에러 발생:', error);
       }
