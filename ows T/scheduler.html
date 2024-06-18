@@ -193,6 +193,32 @@
             background-color: #f2f2f2;
         }
 
+        #date-navigation {
+            font-size: 25px;
+            display: flex;
+            justify-content: center; /* 중앙 정렬로 변경 */
+            align-items: center;
+        }
+
+        #date-navigation button {
+            background-color: #eeeeeede;
+            border: 1px solid #ffffff;
+            padding: 5px 10px;
+            margin: 0 10px; /* 양쪽에 간격 추가 */
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #date-navigation button:hover {
+            background-color: #c2c2c2de;
+        }
+
+        #date-output {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0 20px; /* 양쪽에 간격 추가 */
+        } 
+
         footer {
             margin-top: 50px;
             padding: 20px;
@@ -516,15 +542,18 @@
         </div>
 
         <div id="todo">
-            <button id="prevDay">&lt;</button>
-            <p id="date-output"></p>
-            <button id="nextDay">&gt;</button>
-            <br /><br />
+            <br/><br/><br/>
+            <div id="date-navigation">
+                <button id="prevDay">&lt;</button>
+                <p id="date-output"></p>
+                <button id="nextDay">&gt;</button>
+            </div>
+            <br /><br/><br/><br/><br/>
             <form id="todo-form">
                 <input type="text" placeholder="What to do?" id="todo-input" />
                 <button type="submit" id="todo-add">Add</button>
             </form>
-            <ul id="todo-list"></ul>
+            <ul id="todo-list"></ul>        
 
             <script>
                 const currentDate = new Date();
