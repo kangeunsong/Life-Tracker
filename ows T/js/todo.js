@@ -16,53 +16,47 @@ const toDoList = document.querySelector("#todo-list");
 // 할 일 목록을 저장할 배열을 초기화합니다.
 let toDos = [];
 let selectedNum = 0;
+let totalNum = 0;
+
+function countSelectedTodos() {
+  return toDos.reduce((count, todo) => {
+    return count + (todo.value ? 1 : 0);
+  }, 0);
+}
 
 // Firebase에서 할 일 목록을 가져와 화면에 추가합니다.
 auth.onAuthStateChanged(async (user) => {
-  selectedNum = 0;
   if (user) {
     try {
       const userInfo = await getUserInfo(user.uid);
       const userUid = userInfo.uid;
-      const path = `scheduler/${userUid}/${dateKey}/todoList`;
+      let path = `scheduler/${userUid}/${dateKey}/todoList`;
       const snapshot = await get(ref(db, path));
 
       if (snapshot.exists()) {
         const data = snapshot.val();
-        await set(ref(db, path), {
-          selectedNum: 0
-        }); 
-
-        if(data.selectedNum == null){
-          
-        } else {
-          selectedNum = data.selectedNum;
-        }
+        
+        // 데이터를 불러온 후 selectedNum과 totalNum 값을 설정합니다.
+        selectedNum = data.selectedNum || 0;
+        totalNum = data.totalNum || 0;
 
         // 현재 페이지 로드 시, 할 일 목록 및 화면에 추가
         for (const key in data) {
           if (key !== 'totalNum' && key !== 'selectedNum' && data[key].todoText) {
-            if(data[key].value == true){
-              const selectvalue = data[key].value;
-
-              const newToDoObj = {
-                text: data[key].todoText,
-                todoID: key,
-                value: true
-              };
-              toDos.push(newToDoObj);
-              addToDo(newToDoObj);
-            } else{
-              const newToDoObj = {
-                text: data[key].todoText,
-                todoID: key,
-              };
-              toDos.push(newToDoObj);
-              addToDo(newToDoObj);
-            }
+            const newToDoObj = {
+              text: data[key].todoText,
+              todoID: key,
+              value: data[key].value || false
+            };
+            toDos.push(newToDoObj);
+            addToDo(newToDoObj);
           }
         }
+
+        selectedNum = countSelectedTodos();
+        await set(ref(db, `${path}/selectedNum`), selectedNum);
       }
+
     } catch (error) {
       console.error('사용자 정보를 가져오는 중 에러 발생:', error);
     } finally {
@@ -95,7 +89,8 @@ function saveToDo(newToDoObj) {
 
         const path = `scheduler/${userUid}/${dateKey}/todoList/${newToDoObj.todoID}`;
         await set(ref(db, path), {
-          todoText: newToDoObj.text
+          todoText: newToDoObj.text,
+          value: newToDoObj.value || false
         });
 
         await updateTotalNum(userUid);
@@ -119,8 +114,17 @@ function deleteToDo(event, newToDoObj) {
         const userUid = userInfo.uid;
 
         const path = `scheduler/${userUid}/${dateKey}/todoList/${newToDoObj.todoID}`;
-        await set(ref(db, path), null);
+        
+        // 선택된 할 일인지 확인
+        const snapshot = await get(ref(db, path));
+        const target = snapshot.val();
+        
+        if (target && target.value) {
+          selectedNum--;
+          await updateSelectedNum(userUid, selectedNum);
+        }
 
+        await set(ref(db, path), null);
         await updateTotalNum(userUid);
       } catch (error) {
         console.error('사용자 정보를 가져오는 중 에러 발생:', error);
@@ -141,59 +145,20 @@ function addToDo(newToDoObj) {
   checkbox.type = "checkbox";
   checkbox.id = newToDoObj.todoID;
 
-  if (newToDoObj.value === true) {
+  if (newToDoObj.value) {
     checkbox.checked = true;
     li.classList.add("completed");
-
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        try {
-          const userInfo = await getUserInfo(user.uid);
-          const userUid = userInfo.uid;
-  
-          const path = `scheduler/${userUid}/${dateKey}/todoList/${newToDoObj.todoID}`;
-          await set(ref(db, path), {
-            todoText: newToDoObj.text,
-            value: true
-          });
-        } catch (error) {
-          console.error('사용자 정보를 가져오는 중 에러 발생:', error);
-        }
-      } else {
-        console.log('사용자가 로그인하지 않았습니다.');
-      }
-    });
   } else {
-    console.log("here4");
     checkbox.checked = false;
     li.classList.remove("completed");
-
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        try {
-          const userInfo = await getUserInfo(user.uid);
-          const userUid = userInfo.uid;
-  
-          const path = `scheduler/${userUid}/${dateKey}/todoList/${newToDoObj.todoID}`;
-          await set(ref(db, path), {
-            todoText: newToDoObj.text,
-            value: null
-          });
-        } catch (error) {
-          console.error('사용자 정보를 가져오는 중 에러 발생:', error);
-        }
-      } else {
-        console.log('사용자가 로그인하지 않았습니다.');
-      }
-    });
   }
 
   checkbox.addEventListener("change", (event) => {
     if (!isLoading) {
-        handleCheckBoxChange(event);
+      handleCheckBoxChange(event);
     }
   });
-  
+
   const span = document.createElement("span");
   span.innerText = newToDoObj.text;
 
@@ -210,13 +175,8 @@ function addToDo(newToDoObj) {
 }
 
 function handleCheckBoxChange(event) {
-  const todoId = event.target.id
+  const todoId = event.target.id;
   const todoItem = document.getElementById(todoId);
-
-  // if (!todoItem) {
-  //   console.error('Todo item not found for id:', todoId);
-  //   return;
-  // }
 
   auth.onAuthStateChanged(async (user) => {
     if (user) {
@@ -224,10 +184,10 @@ function handleCheckBoxChange(event) {
         const userInfo = await getUserInfo(user.uid);
         const userUid = userInfo.uid;
 
-        let path = `scheduler/${userUid}/${dateKey}/todoList/${todoId}`; 
+        let path = `scheduler/${userUid}/${dateKey}/todoList/${todoId}`;
         const snapshot = await get(ref(db, path));
         const target = snapshot.val();
-    
+
         if (event.target.checked) {
           target.value = true;
           todoItem.classList.add("completed");
@@ -240,15 +200,14 @@ function handleCheckBoxChange(event) {
         } else {
           target.value = false;
           todoItem.classList.remove("completed");
-          console.log("unselected!");
           selectedNum--;
 
           await set(ref(db, path), {
             todoText: target.todoText,
-            value: null
+            value: false
           });
         }
-  
+
         await updateSelectedNum(userUid, selectedNum);
       } catch (error) {
         console.error('체크 상태 업데이트 중 에러 발생:', error);
