@@ -1,353 +1,206 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Life Tracker - Timer</title>
     <link rel="stylesheet" href="style.css" />
     <style>
-      /* 스타일 조정 */
-      body {
-        text-align: center;
-        font-family: "Inter", sans-serif;
-      }
-
-      /* Dropdown Menu 스타일 */
-      .dropdown {
-        position: relative;
-        display: inline-block;
-      }
-
-      .dropdown-content {
-        display: none;
-        position: absolute;
-        background-color: white;
-        min-width: 160px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-      }
-
-      .dropdown:hover .dropdown-content {
-        display: block;
-      }
-
-      .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-        text-align: left;
-      }
-
-      .dropdown-content a:hover {
-        background-color: #f1f1f1;
-      }
-
-      #timerTitle {
-        font-size: 45px;
-        padding: 50px 0;
-      }
-
-      #timerSection,
-      #stopwatchSection {
-        display: none;
-        margin-top: 30px;
-        width: 80%;
-        margin: 0 auto;
-      }
-
-      .timer-image {
-        width: 20%;
-        height: auto;
-      }
-
-      #timerSection input,
-      #stopwatchSection input {
-        font-size: 1.5rem;
-        padding: 10px;
-        margin: 5px;
-        width: 80px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      #timerSection p,
-      #stopwatchSection p {
-        font-size: 2rem;
-        font-weight: bold;
-        margin: 10px 0;
-      }
-
-      #timerSection button,
-      #stopwatchSection button {
-        font-size: 1.2rem;
-        padding: 10px 20px;
-        margin: 5px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      #timerSection button:hover,
-      #stopwatchSection button:hover {
-        background-color: #555;
-        color: white;
-        transform: scale(1.05);
-      }
-
-      #timerSection button:active,
-      #stopwatchSection button:active {
-        background-color: #333;
-      }
-
-      #startTimerBtn {
-        background-color: rgb(90, 90, 90);
-        color: white;
-      }
-
-      #stopTimerBtn {
-        background-color: rgb(150, 150, 150);
-        color: white;
-      }
-
-      #resetTimerBtn {
-        background-color: rgb(210, 210, 210);
-        color: white;
-      }
-
-      #startStopwatchBtn {
-        background-color: rgb(90, 90, 90);
-        color: white;
-      }
-
-      #stopStopwatchBtn {
-        background-color: rgb(150, 150, 150);
-        color: white;
-      }
-
-      #resetStopwatchBtn {
-        background-color: rgb(210, 210, 210);
-        color: white;
-      }
-
-      .highlight {
-        background-color: yellow;
-      }
-
-      @keyframes blink {
-        50% {
-          background-color: red;
-          color: white;
+        #timerTitle {
+            font-size: 45px;
+            padding: 50px 0;
         }
-      }
 
-      .blink {
-        animation: blink 1s steps(2, start) infinite;
-      }
+        .timer-image {
+            width: 20%;
+            height: auto;
+            cursor: pointer;
+        }
 
-      /* 새로운 버튼 스타일 추가 */
-      .switch-button {
-        background-color: #333;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        margin: 5px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s, transform 0.2s;
-      }
+        #timerSection input {
+            font-size: 1.5rem;
+            padding: 10px;
+            margin: 5px;
+            width: 60px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-      .switch-button:hover {
-        background-color: #555;
-      }
+        #timerSection button {
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-      .switch-button:active {
-        transform: scale(0.95);
-      }
+        #timerSection button:hover {
+            background-color: #555;
+            color: white;
+            transform: scale(1.05);
+        }
 
-      /* 입력 필드 스타일 추가 */
-      #timerSection input {
-        border: 2px solid #333;
-        border-radius: 5px;
-        padding: 5px;
-        margin: 5px;
-      }
+        #timerSection button:active {
+            background-color: #333;
+        }
+
+        #reset {
+            background-color: rgb(210, 210, 210);
+            color: white;
+        }
+
+        .highlight {
+            background-color: yellow;
+        }
+
+        @keyframes blink {
+            50% {
+                background-color: red;
+                color: white;
+            }
+        }
+
+        .blink {
+            animation: blink 1s steps(2, start) infinite;
+        }
+
+        .switch-button {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .switch-button:hover {
+            background-color: #555;
+        }
+
+        .switch-button:active {
+            transform: scale(0.95);
+        }
+
+        #timerSection input {
+            border: 2px solid #333;
+            border-radius: 5px;
+            padding: 5px;
+            margin: 5px;
+        }
     </style>
-  </head>
+</head>
 
-  <body>
+<body>
     <h1>Life Tracker</h1>
     <ul>
-      <li><a href="scheduler.html">Scheduler</a></li>
-      <li class="dropdown">
-        <a href="timer.html" id="selected-list">Timer</a>
-        <div class="dropdown-content">
-          <a href="#" id="switchToTimer">Timer</a>
-          <a href="#" id="switchToStopwatch">Stopwatch</a>
-        </div>
-      </li>
-      <li><a href="song.html">Song</a></li>
-      <li><a href="diary.html">Diary</a></li>
-      <li><a href="myPage.html">My page</a></li>
+        <li><a href="scheduler.html">Scheduler</a></li>
+        <li class="dropdown">
+            <a href="timer.html" id="selected-list">Timer</a>
+            <div class="dropdown-content">
+                <a href="stopwatch.html">Stopwatch</a>
+            </div>
+        </li>
+        <li><a href="song.html">Song</a></li>
+        <li><a href="diary.html">Diary</a></li>
+        <li><a href="myPage.html">My page</a></li>
     </ul>
-    <h1 id="timerTitle">Chronometer</h1>
-    <img src="timer.png" alt="Timer Image" class="timer-image" />
+    <img id="start" src="start.png" alt="Timer Image" class="timer-image" />
 
     <div id="timerSection">
-      <h2>Timer</h2>
-      <input type="number" id="hours" placeholder="HH" min="0" max="23" />
-      <input type="number" id="minutes" placeholder="MM" min="0" max="59" />
-      <input type="number" id="seconds" placeholder="SS" min="0" max="59" />
-      <p id="timerDisplay">00:00:00</p>
-      <div id="timerControls">
-        <button id="startTimerBtn">Start</button>
-        <button id="stopTimerBtn">Stop</button>
-        <button id="resetTimerBtn">Reset</button>
-      </div>
-    </div>
-
-    <div id="stopwatchSection">
-      <h2>Stopwatch</h2>
-      <p id="stopwatchDisplay">00:00:00</p>
-      <div id="stopwatchControls">
-        <button id="startStopwatchBtn">Start</button>
-        <button id="stopStopwatchBtn">Stop</button>
-        <button id="resetStopwatchBtn">Reset</button>
-      </div>
+        <h2>Timer</h2>
+        <input type="number" id="hours" placeholder="HH" min="00" max="99" />
+        <input type="number" id="minutes" placeholder="MM" min="00" max="59" />
+        <input type="number" id="seconds" placeholder="SS" min="00" max="59" />
+        <br>
+        <button id="reset">Reset</button>
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const switchToTimerBtn = document.getElementById("switchToTimer");
-        const switchToStopwatchBtn =
-          document.getElementById("switchToStopwatch");
-        const timerSection = document.getElementById("timerSection");
-        const stopwatchSection = document.getElementById("stopwatchSection");
+        document.addEventListener("DOMContentLoaded", function () {
+            let timerInterval;
+            let timerRunning = false;
+            const startImage = document.getElementById("start");
+            const resetButton = document.getElementById("reset");
 
-        switchToTimerBtn.addEventListener("click", function () {
-          timerSection.style.display = "block";
-          stopwatchSection.style.display = "none";
-        });
+            function playAlarm() {
+                const audio = new Audio("alarm.mp3");
+                audio.play();
+                clearInterval(timerInterval);
+                startImage.src = "start.png";
+                timerRunning = false;
+            }
 
-        switchToStopwatchBtn.addEventListener("click", function () {
-          timerSection.style.display = "none";
-          stopwatchSection.style.display = "block";
-        });
+            function startTimer() {
+                const hours = parseInt(document.getElementById("hours").value) || 0;
+                const minutes = parseInt(document.getElementById("minutes").value) || 0;
+                const seconds = parseInt(document.getElementById("seconds").value) || 0;
+                let totalTime = hours * 3600 + minutes * 60 + seconds;
 
-        // Timer
-        let timerInterval;
-        let timerRunning = false;
-        const timerDisplay = document.getElementById("timerDisplay");
-        const startTimerBtn = document.getElementById("startTimerBtn");
-        const stopTimerBtn = document.getElementById("stopTimerBtn");
-        const resetTimerBtn = document.getElementById("resetTimerBtn");
+                if (totalTime > 0 && !timerRunning) {
+                    timerInterval = setInterval(function () {
+                        if (totalTime <= 0) {
+                            clearInterval(timerInterval);
+                            timerRunning = false;
+                            playAlarm();
+                            alert("Time's up!");
+                        } else {
+                            totalTime--;
+                            document.getElementById("hours").value = Math.floor(totalTime / 3600).toString().padStart(2, "0");
+                            document.getElementById("minutes").value = Math.floor((totalTime % 3600) / 60).toString().padStart(2, "0");
+                            document.getElementById("seconds").value = (totalTime % 60).toString().padStart(2, "0");
+                        }
+                    }, 1000);
+                    startImage.src = "stop.png";
+                    timerRunning = true;
+                }
+            }
 
-        function updateTimerDisplay(time) {
-          const hours = Math.floor(time / 3600)
-            .toString()
-            .padStart(2, "0");
-          const minutes = Math.floor((time % 3600) / 60)
-            .toString()
-            .padStart(2, "0");
-          const seconds = (time % 60).toString().padStart(2, "0");
-          timerDisplay.textContent = `${hours}:${minutes}:${seconds}`;
-        }
+            function stopTimer() {
+                clearInterval(timerInterval);
+                startImage.src = "start.png";
+                timerRunning = false;
+            }
 
-        function playAlarm() {
-          const audio = new Audio("alarm.mp3");
-          audio.play();
-        }
-
-        startTimerBtn.addEventListener("click", function () {
-          const hours = parseInt(document.getElementById("hours").value) || 0;
-          const minutes =
-            parseInt(document.getElementById("minutes").value) || 0;
-          const seconds =
-            parseInt(document.getElementById("seconds").value) || 0;
-          let totalTime = hours * 3600 + minutes * 60 + seconds;
-
-          if (totalTime > 0 && !timerRunning) {
-            timerInterval = setInterval(function () {
-              if (totalTime <= 0) {
+            function resetTimer() {
                 clearInterval(timerInterval);
                 timerRunning = false;
-                timerDisplay.classList.add("blink");
-                playAlarm();
-                setTimeout(() => {
-                  timerDisplay.classList.remove("blink");
-                }, 5000);
-                alert("Time's up!");
-              } else {
-                totalTime--;
-                updateTimerDisplay(totalTime);
-              }
-            }, 1000);
-            timerRunning = true;
-          }
+                document.getElementById("hours").value = "00";
+                document.getElementById("minutes").value = "00";
+                document.getElementById("seconds").value = "00";
+                startImage.src = "start.png";
+            }
+
+            startImage.addEventListener("click", function () {
+                if (timerRunning) {
+                    stopTimer();
+                } else {
+                    startTimer();
+                }
+            });
+
+            resetButton.addEventListener("click", resetTimer);
+
+            function padWithZeroes(event) {
+                let value = event.target.value;
+                if (value.length === 1) {
+                    event.target.value = value.padStart(2, '0');
+                } else if (value.length > 2) {
+                    event.target.value = parseInt(value).toString();
+                }
+            }
+
+            document.getElementById("hours").addEventListener("input", padWithZeroes);
+            document.getElementById("minutes").addEventListener("input", padWithZeroes);
+            document.getElementById("seconds").addEventListener("input", padWithZeroes);
         });
-
-        stopTimerBtn.addEventListener("click", function () {
-          clearInterval(timerInterval);
-          timerRunning = false;
-        });
-
-        resetTimerBtn.addEventListener("click", function () {
-          clearInterval(timerInterval);
-          timerRunning = false;
-          timerDisplay.textContent = "00:00:00";
-          timerDisplay.classList.remove("blink");
-        });
-
-        // Stopwatch
-        let stopwatchInterval;
-        let stopwatchRunning = false;
-        let elapsedTime = 0;
-        const stopwatchDisplay = document.getElementById("stopwatchDisplay");
-        const startStopwatchBtn = document.getElementById("startStopwatchBtn");
-        const stopStopwatchBtn = document.getElementById("stopStopwatchBtn");
-        const resetStopwatchBtn = document.getElementById("resetStopwatchBtn");
-
-        function updateStopwatchDisplay(time) {
-          const hours = Math.floor(time / 3600)
-            .toString()
-            .padStart(2, "0");
-          const minutes = Math.floor((time % 3600) / 60)
-            .toString()
-            .padStart(2, "0");
-          const seconds = (time % 60).toString().padStart(2, "0");
-          stopwatchDisplay.textContent = `${hours}:${minutes}:${seconds}`;
-        }
-
-        function startStopwatch() {
-          const startTime = Date.now() - elapsedTime;
-          stopwatchInterval = setInterval(function () {
-            elapsedTime = Date.now() - startTime;
-            updateStopwatchDisplay(Math.floor(elapsedTime / 1000));
-          }, 1000);
-        }
-
-        startStopwatchBtn.addEventListener("click", function () {
-          if (!stopwatchRunning) {
-            startStopwatch();
-            stopwatchRunning = true;
-          }
-        });
-
-        stopStopwatchBtn.addEventListener("click", function () {
-          clearInterval(stopwatchInterval);
-          stopwatchRunning = false;
-        });
-
-        resetStopwatchBtn.addEventListener("click", function () {
-          clearInterval(stopwatchInterval);
-          stopwatchRunning = false;
-          elapsedTime = 0;
-          updateStopwatchDisplay(0);
-        });
-      });
     </script>
-  </body>
+</body>
+
 </html>
