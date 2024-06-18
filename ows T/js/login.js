@@ -29,17 +29,25 @@ async function login(email, password) {
     }
 }
 
+function handleLogin() {
+    const email = document.getElementById('account').value;
+    const password = document.getElementById('pw').value;
+    login(email, password);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const loginButton = document.getElementById('login-button');
     const signupButton = document.getElementById('signup-button');
 
-    loginButton.addEventListener('click', () => {
-        const email = document.getElementById('account').value;
-        const password = document.getElementById('pw').value;
-        login(email, password);
-    });
+    loginButton.addEventListener('click', handleLogin);
 
     signupButton.addEventListener('click', () => {
         window.location.href = "signup.html";
+    });
+
+    document.addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+            handleLogin();
+        }
     });
 });
