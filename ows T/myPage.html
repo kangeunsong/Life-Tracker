@@ -13,7 +13,6 @@
             background: white;
         }
 
-
         .container {
             max-width: 1200px;
             margin: 50px auto;
@@ -112,8 +111,8 @@
         import { auth, db, ref, set, get, getUserInfo } from './js/firebase.js';     
 
         const currentDate = new Date();
-        const currentDayOfWeek = currentDate.getDay(); // 0: 일요일, 1: 월요일, ..., 6: 토요일
-        const currentMonth = currentDate.getMonth(); // 0: 1월, 1: 2월, ..., 11: 12월
+        const currentDayOfWeek = currentDate.getDay();
+        const currentMonth = currentDate.getMonth();
         const currentDay = currentDate.getDate();  
         
         let year = currentDate.getFullYear();
@@ -123,6 +122,31 @@
 
         let totalTasks;
         let completedTasks;
+
+        async function fetchWeeklyData(userUid) {
+            const weeklyData = [];
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(currentDate);
+                date.setDate(date.getDate() - (currentDayOfWeek - i));
+                const year = date.getFullYear();
+                const month = ('0' + (date.getMonth() + 1)).slice(-2);
+                const day = ('0' + date.getDate()).slice(-2);
+                const dateKey = `${year}${month}${day}`;
+
+                const totalTasksPath = `scheduler/${userUid}/${dateKey}/todoList/totalNum`;
+                const completedTasksPath = `scheduler/${userUid}/${dateKey}/todoList/selectedNum`;
+
+                const totalTasksSnapshot = await get(ref(db, totalTasksPath));
+                const completedTasksSnapshot = await get(ref(db, completedTasksPath));
+
+                const totalTasks = totalTasksSnapshot.val() || 0;
+                const completedTasks = completedTasksSnapshot.val() || 0;
+
+                const completionRate = totalTasks ? (completedTasks / totalTasks) * 100 : 0;
+                weeklyData.push(completionRate);
+            }
+            return weeklyData;
+        }
 
         auth.onAuthStateChanged(async (user) => {
             if (user) {
@@ -160,8 +184,44 @@
                             document.getElementById('completed-tasks').textContent = `목표 정보를 불러올 수 없습니다.`;
                         }
 
+                        const weeklyData = await fetchWeeklyData(userUid);
+
+                        const weeklyChartCtx = document.getElementById('weeklyChart').getContext('2d');
+                        const weeklyColors = Array(7).fill('rgba(0, 0, 0, 100)');
+                        weeklyColors[currentDayOfWeek] = 'rgba(0, 0, 0, 0)'; 
+
+                        new Chart(weeklyChartCtx, {
+                            type: 'line',
+                            data: {
+                                labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                                datasets: [{
+                                    label: 'Tasks Completed',
+                                    data: weeklyData,
+                                    borderColor: 'black',
+                                    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                                    fill: false
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    x: {
+                                        beginAtZero: true
+                                    },
+                                    y: {
+                                        beginAtZero: true,
+                                        max: 100, // y축 최대값을 100으로 설정
+                                        ticks: {
+                                            callback: function(value) {
+                                                return value + '%'; // y축 레이블에 % 추가
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
                     } else {
-                    console.error('사용자 정보가 없습니다.');
+                        console.error('사용자 정보가 없습니다.');
                     }
                 } catch (error) {
                     console.error('사용자 정보를 가져오는 중 에러 발생:', error);
@@ -169,48 +229,12 @@
             } else {
                 console.log('사용자가 로그인하지 않았습니다.');
             }
-        });        
-
-
-
-        const weeklyChartCtx = document.getElementById('weeklyChart').getContext('2d');
-        const monthlyChartCtx = document.getElementById('monthlyChart').getContext('2d');
-
-        const weeklyData = [1, 2, 8, 4, 7, 9, 2];
-        const monthlyData = [3, 2, 5, 7, 8, 6, 5, 4, 6, 9, 8, 1];
-
-
-        const weeklyColors = Array(7).fill('rgba(0, 0, 0, 100)');
-        const monthlyColors = Array(12).fill('rgba(0, 0, 0, 0.4)');
-        weeklyColors[currentDayOfWeek] = 'rgba(0, 0, 0, 0)'; 
-        monthlyColors[currentMonth] = 'rgba(0, 0, 0, 10)'; 
-
-
-        new Chart(weeklyChartCtx, {
-            type: 'line',
-            data: {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                datasets: [{
-                    label: 'Tasks Completed',
-                    data: weeklyData,
-                    borderColor: 'black',
-                    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                    fill: false
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        beginAtZero: true
-                    },
-                    y: {
-                        beginAtZero: true,
-                        max: 10
-                    }
-                }
-            }
         });
+
+        const monthlyChartCtx = document.getElementById('monthlyChart').getContext('2d');
+        const monthlyData = [32, 25, 15, 27, 38, 29, 0, 0, 0, 0, 0, 0];
+        const monthlyColors = Array(12).fill('rgba(0, 0, 0, 0.4)');
+        monthlyColors[currentMonth] = 'rgba(0, 0, 0, 10)'; 
 
         new Chart(monthlyChartCtx, {
             type: 'bar',
@@ -232,7 +256,7 @@
                     },
                     y: {
                         beginAtZero: true,
-                        max: 10
+                        max: 50
                     }
                 }
             }
